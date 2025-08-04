@@ -1,18 +1,34 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Avatar, AvatarImage } from "./ui/avatar";
+import Image from "next/image";
 
 
 function AuthButton() {
     const { data: session } = useSession();
-    console.log("Session:", session);
     if (session) {
         return (
             <>
-                {session.user?.name} <br />
-                <button onClick={() => signOut()} className="btn btn-primary">
-                    Sign Out
-                </button>
+                <div className="flex items-center justify-between p-2 rounded-2xl">
+                    <Image src='/interview-ai.png' width={50} height={50} alt="Interview-ai logo" />
+                    <DropdownMenu >
+                        <DropdownMenuTrigger >
+                            <Avatar>
+                                <AvatarImage src={session.user?.image || "/default-avatar.png"} alt="User Avatar" />
+                            </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem>
+                                <button onClick={() => signOut()} className="btn btn-primary">
+                                    Sign Out
+                                </button>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+
             </>
         );
     } else {
