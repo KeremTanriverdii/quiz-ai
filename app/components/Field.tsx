@@ -5,6 +5,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 export default function Field() {
     const [inputValue, setInputValue] = useState<string>('');
     const [level, setLevel] = useState<string>('Junior');
@@ -28,7 +29,7 @@ export default function Field() {
     };
     return (
         <>
-            <p>İstediğiniz alHanı propmta yazıp ve seviyenizi belirttikten sonra teste başlayabilirsiniz.</p>
+            <p>İstediğiniz alanı propmta yazıp ve seviyenizi belirttikten sonra teste başlayabilirsiniz.</p>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <Input
                     value={inputValue}
@@ -61,6 +62,9 @@ export default function Field() {
                 </RadioGroup>
                 <Button type="submit" className="mt-4 dark:bg-white " >
                     {isSubmitting ? 'Sorular Oluşturuluyor' : 'Başla'}
+                </Button>
+                <Button className="mt-4 dark:bg-white">
+                    <Link href='/form'>Başlata</Link>
                 </Button>
             </form>
         </>

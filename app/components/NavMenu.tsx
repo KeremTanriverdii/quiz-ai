@@ -14,7 +14,7 @@ function AuthButton() {
                 <div className="flex items-center justify-between p-2 rounded-2xl">
                     <Image src='/interview-ai.png' width={50} height={50} alt="Interview-ai logo" />
                     <DropdownMenu >
-                        <DropdownMenuTrigger >
+                        <DropdownMenuTrigger>
                             <Avatar>
                                 <AvatarImage src={session.user?.image || "/default-avatar.png"} alt="User Avatar" />
                             </Avatar>
