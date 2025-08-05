@@ -1,10 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../components/ui/label";
+import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
+import { Button } from "../components/ui/button";
 
 interface Props {
   onNext: () => void
@@ -17,7 +16,6 @@ export default function Step1({ onNext }: Props) {
     localStorage.setItem('level', level);
   }, [level])
 
-  console.log(level);
   return (
     <>
       <div>

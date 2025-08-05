@@ -1,4 +1,4 @@
-import FormWizard from "../components/FormWizard";
+import FormWizard from "../interview/FormWizard";
 
 export default function page() {
     return (

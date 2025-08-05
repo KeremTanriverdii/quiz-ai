@@ -16,16 +16,20 @@ const profess: Profession[] = [
         id: 'frontend',
         name: 'Frontend Developer',
         stack: [
-            { name: 'HTML', type: 'single' },
-            { name: 'CSS', type: 'single' },
-            { name: 'JavaScript', type: 'single' },
+            { name: 'Temel Teknolojiler', options: ["HTML", "CSS", "JavaScript"], type: 'multi', },
             { name: 'Framework', options: ['React', 'Vue.js', 'Angular'], type: 'single' },
-            { name: 'CSS Library', options: ['Tailwind CSS', 'Bootstrap', 'Sass'], type: 'multi' },
-            { name: 'TypeScript', type: 'single' },
+            { name: 'CSS Library', options: ['Tailwind CSS', 'Bootstrap', 'Sass', 'Bulma'], type: 'single' },
+            { name: 'Tip Belirtme', options: ["TypeScript"], type: 'single' },
             { name: 'Server Side Framework', options: ['Next.js', 'Nuxt.js'], type: 'single' },
+            { name: 'State Managament', options: ["Redux", "Zustand", "Recoil", "Jotai"], type: 'single' },
+            { name: 'Component Library', options: ["Material UI", "Chakra UI", "Ant Design", "Shadcn UI"], type: "single" },
             { name: 'Bundler', options: ['Webpack', 'Vite'], type: 'single' },
-            { name: 'Testing Tools', options: ['Jest', 'Cypress'], type: 'multi' },
-            { name: 'Deployment', options: ['Vercel', 'Netlify'], type: 'single' }
+            { name: 'Testing Tools', options: ['Jest', 'Cypress'], type: 'single' },
+            { name: 'Deployment', options: ['Vercel', 'Netlify'], type: 'single' },
+            { name: 'Paket Yönetimi', options: ['npm', 'yarn'], type: 'multi' },
+            { name: 'Versiyon Kontrol', options: ['Git', 'Cvs'], type: 'single' },
+
+            // { name: 'Styling', options: ["CSS Modules", "Styled Components"], type: 'single' }
         ]
     },
     {
@@ -128,4 +132,47 @@ const profess: Profession[] = [
     }
 ]
 
-export { profess }
+const conflictMap: Record<string, string[]> = {
+    "React": ["Vue.js", "Nuxt.js", "Angular", "Svelte"],
+    "Vue.js": ["React", "Next.js", "Svelte", "Angular"],
+    "Next.js": ["Vue.js", "Nuxt.js"],
+    "Angular": ["Vue.js", "React", "Next.js", "Nuxt.js"],
+    "Nuxt.js": ["React", "Next.js"],
+    "Redux": ["Zustand", "Recoil", "Jotai"],
+    "Zustand": ["Redux", "Recoil", "Jotai"],
+    "Recoil": ["Jotai", "Redux", "Zustand"],
+    "Jotai": ["Redux", "Zustand", "Recoil"],
+    "Chakra UI": ["Material UI", "Ant Design", "Shadcn UI"],
+    "Material UI": ["Chakra UI", "Ant Design", "Shadcn UI"],
+    "Ant Design": ["Chakra UI", "Material UI", "Shadcn UI"],
+    "Shadcn UI": ["Chakra UI", "Material UI", "Ant Design"],
+    "Webpack": ["Vite"],
+    "Vite": ["Webpack"],
+    "Tailwind CSS": ['Bootstrap', 'Bulma'],
+    "Bootstrap": ["Tailwind CSS", "Sass", "Bulma"],
+    "Sass": ['Bootstrap', 'Bulma'],
+    "Bulma": ["Tailwind CSS", "Sass", "Bootstrap"],
+    "Vercel": ["Netlify"],
+    "Netlify": ["Vercel"],
+    "Cypress": ["Jest"],
+    "Jest": ["Cypress"],
+
+};
+
+
+const getDisabledOptions = (selections: Record<string, string | string[]>) => {
+    const disabled = new Set<string>();
+
+    Object.values(selections).forEach((val) => {
+        if (typeof val === "string") {
+            conflictMap[val]?.forEach((conflict) => disabled.add(conflict));
+        } else if (Array.isArray(val)) {
+            val.forEach((tech) => {
+                conflictMap[tech]?.forEach((conflict) => disabled.add(conflict));
+            });
+        }
+    });
+    return disabled
+}
+
+export { profess, conflictMap, getDisabledOptions }
