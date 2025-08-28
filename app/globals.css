@@ -78,6 +78,30 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+
+  --color-html: #e34c26;
+  /* HTML5 turuncu */
+  --color-css: #264de4;
+  /* CSS3 mavi */
+  --color-js: #f7df1e;
+  /* JavaScript sarı */
+  --color-ts: #3178c6;
+  /* TypeScript mavi */
+  --color-react: #61dafb;
+  /* React açık mavi */
+  --color-next: #000000;
+  /* Next.js siyah */
+  --color-node: #68a063;
+  /* Node.js yeşil */
+  --color-vue: #42b883;
+  /* Vue yeşil */
+  --color-sass: #cc6699;
+  /* Sass pembe */
+  --color-tailwind: #38b2ac;
+  /* Tailwind teal */
+  --color-default: #888888;
+  /* Default gri */
 }
 
 .dark {

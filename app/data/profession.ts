@@ -160,7 +160,7 @@ const conflictMap: Record<string, string[]> = {
 };
 
 
-const getDisabledOptions = (selections: Record<string, string | string[]>) => {
+export const getDisabledOptions = (selections: Record<string, string | string[]>) => {
     const disabled = new Set<string>();
 
     Object.values(selections).forEach((val) => {
@@ -175,4 +175,4 @@ const getDisabledOptions = (selections: Record<string, string | string[]>) => {
     return disabled
 }
 
-export { profess, conflictMap, getDisabledOptions }
+export { profess, conflictMap }

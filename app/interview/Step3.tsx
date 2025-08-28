@@ -2,11 +2,11 @@
 
 import React, { useEffect, useMemo, useState, useActionState } from 'react';
 import { Button } from '../components/ui/button';
-import { conflictMap, getDisabledOptions, profess } from '@/app/data/profession';
 import { ToggleGroup, ToggleGroupItem } from '../components/ui/toggle-group';
 import { Toggle } from '../components/ui/toggle';
 import { generateQuestion } from './action';
 import { useRouter } from 'next/navigation';
+import { getDisabledOptions, profess } from '../data/profession';
 
 const initialState = null
 async function generateQuestionWithState(_: any, formData: FormData) {
@@ -71,21 +71,45 @@ export default function Step3({ onBack }: Props) {
         });
     };
 
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault()
+
+        const formData = new FormData()
+        formData.append("profession", selectedProfession)
+        formData.append("level", selectedLevel)
+        formData.append("stack", JSON.stringify(selections))
+
+        const result = await generateQuestion(formData)
+
+        // SessionStorage ile Result sayfasına veri taşı
+        sessionStorage.setItem("questions", JSON.stringify(result.questions))
+        sessionStorage.setItem("meta", JSON.stringify({
+            profession: result.profession,
+            level: result.level,
+            stack: result.stack
+        }))
+
+        router.push("/interview/questions")
+    }
+
+
     return (
-        <form action={formAction} className='space-y-6'>
+        <form onSubmit={handleSubmit} className='space-y-6'>
             <input type='hidden' name='profession' value={selectedProfession} />
             <input type='hidden' name='level' value={selectedLevel} />
             <input type='hidden' name='stack' value={JSON.stringify(selections)} />
 
             <div>
+                <div>
+                    {selectedLevel}
+                    {selectedProfession}
+                </div>
                 {filteredProfession.map((profession) => (
-                    <div key={profession.id} className='grid grid-cols-1 md:grid-cols-2  gap-10'>
-                        <h2 className='text-xl font-bold mb-2'>{profession.name}</h2>
-                        <h2>Level {selectedLevel}</h2>
-
+                    <div key={profession.id} >
                         {profession.stack.map((item) => (
-                            <div key={item.name} className='flex flex-col mb-20 w-full items-center gap-10'>
-                                <h4 className='font-semibold mb-2'>{item.name}</h4>
+                            <div key={item.name} className='flex flex-col mx-xl-20 xl:mt-20 border-2 lg:p-5  w-full gap-6'>
+                                <h4 className='font-semibold mb-2 pb-1 '>{item.name}</h4>
 
                                 {/* MULTI SELECTION → ToggleGroup */}
                                 {item.type === 'multi' && (
@@ -95,23 +119,23 @@ export default function Step3({ onBack }: Props) {
                                         onValueChange={(values) =>
                                             handleMultiChange(item.name, values)
                                         }
-                                        className='grid grid-cols-1 md:grid-cols-2 gap-2'
+                                        className='gap-3'
                                     >
                                         {item.options?.map((opt) => (
                                             <ToggleGroupItem
                                                 key={opt}
                                                 value={opt}
                                                 disabled={disabledOptions.has(opt)}
-                                                className='capitalize h-[300px] p-5 flex flex-col border rounded-2xl'
+                                                className='capitalize lg:p-15 flex flex-col border border-zinc-900 card rounded-2xl'
                                             >
-                                                <img src={`/${opt.toLowerCase().replace(/\s+/g, '-')}.svg`} alt={`${opt} icon`} className='w-full h-auto object-contain' />
+                                                <img src={`/${opt.toLowerCase().replace(/\s+/g, '-')}.svg`} alt={`${opt} icon`} className='object-contain w-auto h-auto' />
                                                 {opt}
                                             </ToggleGroupItem>
                                         ))}
                                     </ToggleGroup>
                                 )}
 
-                                {/* SINGLE SELECTION → radio group (elle kalabilir) */}
+                                {/* SINGLE SELECTION → radio group */}
                                 {item.type === 'single' && (
                                     <div>
                                         <ToggleGroup
@@ -120,12 +144,12 @@ export default function Step3({ onBack }: Props) {
                                             onValueChange={(value) =>
                                                 handleSingleChange(item.name, value)
                                             }
-                                            className="grid grid-cols-1 md:grid-cols-2 gap-2"
+                                            className="flex gap-3"
                                         >
                                             {item.options?.map((opt) => (
-                                                <ToggleGroupItem key={opt} value={opt} className={`flex flex-col h-[300px] border p-5 rounded-2xl ${disabledOptions.has(opt) ? 'opacity-50 cursor-not-allowed' : ''
+                                                <ToggleGroupItem key={opt} value={opt} className={`flex flex-col border border-zinc-900 lg:p-15 rounded-2xl ${disabledOptions.has(opt) ? 'opacity-50 cursor-not-allowed' : ''
                                                     }`} disabled={disabledOptions.has(opt)}>
-                                                    <img src={`/${opt.toLowerCase().replace(/\s+/g, '-')}.svg`} alt={`${opt} icon`} className='w-full h-full object-contain' />
+                                                    <img src={`/${opt.toLowerCase().replace(/\s+/g, '-')}.svg`} alt={`${opt} icon`} className='object-contain w-auto h-auto' />
                                                     {opt}
                                                 </ToggleGroupItem>
                                             ))}
@@ -137,7 +161,7 @@ export default function Step3({ onBack }: Props) {
                     </div>
                 ))}
             </div>
-            <div className='flex gap-2'>
+            <div className='flex justify-center gap-2'>
                 <Button type='button' onClick={onBack}>
                     Geri
                 </Button>
