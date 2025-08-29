@@ -1,4 +1,4 @@
-import ResultClient from "@/app/components/ResultClient";
+import ResultClient from "@/components/ResultClient";
 
 export default function page() {
     return (

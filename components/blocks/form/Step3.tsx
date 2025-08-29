@@ -6,7 +6,7 @@ import { ToggleGroup, ToggleGroupItem } from '../components/ui/toggle-group';
 import { Toggle } from '../components/ui/toggle';
 import { generateQuestion } from './action';
 import { useRouter } from 'next/navigation';
-import { getDisabledOptions, profess } from '../data/profession';
+import { getDisabledOptions, profess } from '../../components/data/profession';
 
 const initialState = null
 async function generateQuestionWithState(_: any, formData: FormData) {

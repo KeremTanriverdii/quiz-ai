@@ -1,12 +1,12 @@
 "use client"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useState } from "react"
-import { Button } from "../ui/button"
+import { Button } from "../../../components/ui/button"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Bar, BarChart, CartesianGrid, Label, LabelList, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, Cell, Label, LabelList, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart, XAxis } from "recharts"
 import { TrendingUp } from "lucide-react"
 import { FeedBack } from "@/app/interview/result/page"
-import { colorMap } from "@/app/data/type"
+import { colorMap2 } from "@/components/data/type"
 
 
 export default function GetFeedback({ question, answer, feedback }: {
@@ -27,14 +27,30 @@ export default function GetFeedback({ question, answer, feedback }: {
         if (score <= 10) return "Excellent! You have a strong grasp of the concepts."
     }
 
+
+    const getColorbyScore = (score: number) => {
+        if (score <= 4) return 'red';
+        if (score <= 7) return 'yellow';
+        return 'green';
+    }
     const chartData = [
-        { name: 'Score', value: feedback[selectionQuestion || 0]?.score || 0, fill: 'var(--color-safari)' }
+        { name: 'scor', visitors: feedback[selectionQuestion || 0]?.score || 0 }
     ]
+
+    const chartConfig = {
+        visitors: {
+            color: 'gray-500',
+            label: 'score',
+        },
+
+
+    } satisfies ChartConfig;
+
 
     const chartBarData = feedback[selectionQuestion || 0]?.professionTech.flatMap((tech) =>
         tech.fields.map((field) => ({
-            name: field.field,
-            scor: field.score,
+            name: `${field.field} - ${tech.tech}`,
+            scor: `${field.score}`,
             tech: tech.tech, // burada renk eşlemek için lazım
         }))
     );
@@ -42,26 +58,12 @@ export default function GetFeedback({ question, answer, feedback }: {
     const chartBarConfig = feedback[selectionQuestion || 0]?.professionTech?.reduce((acc, item) => {
         acc[item.tech.toLocaleLowerCase()] = {
             label: item.tech,
-            color: colorMap[item.tech.toLocaleLowerCase()] || 'var(--color-safari)'
+            color: colorMap2[item.tech.toLocaleLowerCase()] || colorMap2.default,
         }
         return acc
     }, {} as Record<string, { label: string; color: string }>) || {}
 
-    const chartConfig = {
-        sorupuan: {
-            label: 'Sorunun puanı',
-            color: 'var(--chart-2)',
-        },
-        javascript: {
-            label: 'JavaScripta',
-            color: 'var(--chart-1)',
-
-        }
-    } satisfies ChartConfig
-
-    console.log(chartBarConfig)
-
-
+    console.log(chartConfig, chartData)
     return (
         <div className="h-full">
             <Card className="h-full">
@@ -93,7 +95,7 @@ export default function GetFeedback({ question, answer, feedback }: {
                                     </p>
                                 </CardContent>
                                 <CardContent>
-                                    <Card className="flex flex-col">
+                                    <div className="flex flex-col lg:mt-10">
                                         <CardHeader className="items-center pb-0">
                                             <CardTitle>Total Score</CardTitle>
                                             <CardDescription>{getScoreMessageForQuestion(Number(feedback[selectionQuestion]?.score))}</CardDescription>
@@ -105,7 +107,7 @@ export default function GetFeedback({ question, answer, feedback }: {
                                             >
                                                 <RadialBarChart
                                                     data={chartData}
-                                                    startAngle={-90}
+                                                    startAngle={0}
                                                     endAngle={-90 + (Number(feedback[selectionQuestion]?.score) / 10) * 360}
                                                     innerRadius={80}
                                                     outerRadius={140}
@@ -117,7 +119,7 @@ export default function GetFeedback({ question, answer, feedback }: {
                                                         className="first:fill-muted last:fill-background"
                                                         polarRadius={[86, 74]}
                                                     />
-                                                    <RadialBar dataKey="visitors" background />
+                                                    <RadialBar dataKey="visitors" background fill={getColorbyScore(Number(feedback[selectionQuestion]?.score))} />
                                                     <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
                                                         <Label
                                                             content={({ viewBox }) => {
@@ -141,7 +143,7 @@ export default function GetFeedback({ question, answer, feedback }: {
                                                                                 y={(viewBox.cy || 0) + 24}
                                                                                 className="fill-muted-foreground"
                                                                             >
-                                                                                / 50
+                                                                                / 10
                                                                             </tspan>
                                                                         </text>
                                                                     )
@@ -161,55 +163,60 @@ export default function GetFeedback({ question, answer, feedback }: {
                                                 This score is based on your answers.
                                             </div>
                                         </CardFooter>
-                                    </Card>
+                                    </div>
                                 </CardContent>
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>Bar Chart - Label</CardTitle>
-                                        <CardDescription>January - June 2024</CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <ChartContainer config={chartBarConfig}>
-                                            <BarChart
-                                                accessibilityLayer
-                                                data={chartBarData}
-                                                margin={{
-                                                    top: 20,
-                                                }}
-                                            >
-                                                <CartesianGrid vertical={false} />
-                                                <XAxis
-                                                    dataKey="name"
-                                                    tickLine={false}
-                                                    tickMargin={10}
-                                                    axisLine={false}
-                                                />
-                                                <ChartTooltip
-                                                    cursor={false}
-                                                    content={<ChartTooltipContent hideLabel />}
-                                                />
-                                                {Object.keys(chartBarConfig).map((key) => (
-                                                    <Bar
-                                                        key={key}
-                                                        dataKey="scor"
-                                                        fill={chartBarConfig[key]?.color || 'var(--color-safari)'}
-                                                        radius={8}
-                                                    >
-                                                        <LabelList dataKey="scor" formatter={(val: number) => `${val}`} color="white" />
-                                                    </Bar>
+
+                                {/* ChartBarData */}
+                                <CardHeader className="lg:mt-15">
+                                    <CardTitle>Bar Chart - Label</CardTitle>
+                                    <CardDescription>January - June 2024</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <ChartContainer config={chartBarConfig}>
+                                        <BarChart
+                                            accessibilityLayer
+                                            data={chartBarData}
+                                            margin={{
+                                                top: 20,
+                                            }}
+                                        >
+                                            <CartesianGrid vertical={false} />
+                                            <XAxis
+                                                dataKey="name"
+                                                tickLine={false}
+                                                tickMargin={10}
+                                                axisLine={false}
+                                            />
+                                            <ChartTooltip
+                                                cursor={false}
+                                                content={<ChartTooltipContent hideLabel />}
+                                            />
+                                            <Bar dataKey="scor" radius={8}>
+                                                {chartBarData.map((entry, index) => (
+                                                    <Cell
+                                                        key={`cell-${index}`}
+                                                        fill={getColorbyScore(Number(feedback[selectionQuestion]?.score))}
+                                                    />
                                                 ))}
-                                            </BarChart>
-                                        </ChartContainer>
-                                    </CardContent>
-                                    <CardFooter className="flex-col items-start gap-2 text-sm">
-                                        <div className="flex gap-2 leading-none font-medium">
-                                            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                                        </div>
-                                        <div className="text-muted-foreground leading-none">
-                                            Showing total visitors for the last 6 months
-                                        </div>
-                                    </CardFooter>
-                                </Card>
+                                                <LabelList
+                                                    position="top"
+                                                    dataKey="scor"
+                                                    offset={10}
+                                                    className="fill-foreground"
+                                                    fontSize={12}
+                                                />
+                                            </Bar>
+                                        </BarChart>
+                                    </ChartContainer>
+                                </CardContent>
+                                <CardFooter className="flex-col items-start gap-2 text-sm">
+                                    <div className="flex gap-2 leading-none font-medium">
+                                        Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+                                    </div>
+                                    <div className="text-muted-foreground leading-none">
+                                        Showing total visitors for the last 6 months
+                                    </div>
+                                </CardFooter>
                             </div>
                         ))}
                     </>

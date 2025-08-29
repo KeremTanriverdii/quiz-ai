@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Label } from '../components/ui/label'
-import { RadioGroup } from '../components/ui/radio-group'
 import { RadioGroupItem } from '@radix-ui/react-radio-group'
 import { useRouter } from 'next/navigation'
-import { Button } from '../components/ui/button'
-import { Input } from '../components/ui/input'
-import { profess } from '@/app/data/profession'
+import { profess } from '@/components/data/profession'
+import { Label } from 'recharts'
+import { RadioGroup } from '@/components/ui/radio-group'
+import { Button } from '@/components/ui/button'
 
 
 interface Props {
