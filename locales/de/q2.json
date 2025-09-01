@@ -1,0 +1,18 @@
+{
+  "back": "Zurück",
+  "based": "Diese Punktzahl basiert auf Ihren Antworten.",
+  "FieldScore": "Feld-Punktzahl für Technologien",
+  "hint": "Hinweis",
+  "keep": "Arbeiten Sie weiter daran!",
+  "next": "Weiter",
+  "questions": "Fragen",
+  "ScoreMessage0": "Es sieht so aus, als ob Sie gerade erst anfangen. Üben Sie weiter!",
+  "ScoreMessage1": "Sie sind auf dem richtigen Weg, aber es gibt noch mehr zu lernen.",
+  "ScoreMessage2": "Gute Leistung! Es gibt einige Bereiche, die verbessert werden können.",
+  "ScoreMessage3": "Tolle Arbeit! Sie haben ein gutes Verständnis.",
+  "ScoreMessage4": "Ausgezeichnet! Sie haben die Konzepte fest im Griff.",
+  "showResut": "Ergebnis anzeigen",
+  "start": "Starten",
+  "totalScore": "Gesamtpunktzahl",
+  "welcome": "Willkommen"
+}

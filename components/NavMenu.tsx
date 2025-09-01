@@ -19,7 +19,7 @@ function AuthButton() {
 
                 <DropdownMenu>
                     <DropdownMenuTrigger >
-                        <Button variant={"outline"}>Lang</Button>
+                        <div className="p-2 bg-zinc-500 rounded-2xl">Lang</div>
                         <DropdownMenuContent>
                             <DropdownMenuItem>
                                 <Link href="/" locale="en-US">en</Link>
