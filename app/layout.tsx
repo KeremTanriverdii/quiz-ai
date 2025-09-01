@@ -31,12 +31,12 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider session={session}>
-          <NavMenu />
-          <main>
-            {children}
-          </main>
-        </SessionProvider>
+        {/* <SessionProvider session={session}> */}
+        <NavMenu />
+        <main>
+          {children}
+        </main>
+        {/* </SessionProvider> */}
       </body>
     </html>
   );

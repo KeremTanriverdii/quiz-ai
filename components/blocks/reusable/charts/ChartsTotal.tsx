@@ -1,13 +1,14 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChartContainer } from '@/components/ui/chart'
 import { Skeleton } from '@/components/ui/skeleton'
+import { t } from 'i18next'
 import { TrendingUp } from 'lucide-react'
 import React from 'react'
 import { Label, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts'
 
 export default function ChartsTotal({ totalScore, getScoreMessage, chartData, chartConfig }: {
     totalScore: number,
-    getScoreMessage: (score: number) => string,
+    getScoreMessage: (score: number, t: (key: string) => string) => string,
     chartData: any[],
     chartConfig: any
 }) {
@@ -23,7 +24,7 @@ export default function ChartsTotal({ totalScore, getScoreMessage, chartData, ch
                 <Skeleton className="rounded-xl" />
                 <CardHeader className="items-center pb-0">
                     <CardTitle>Total Score</CardTitle>
-                    <CardDescription>{getScoreMessage(totalScore)}</CardDescription>
+                    <CardDescription>{getScoreMessage(totalScore, t)}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 pb-0">
                     <ChartContainer

@@ -8,8 +8,10 @@ import ChartsTotal from "@/components/blocks/reusable/charts/ChartsTotal"
 import ChartsBarScore from "@/components/blocks/reusable/charts/ChartsBarScore"
 import { FeedBack, Question, Tech, TotalX } from "@/components/data/type"
 import GetFeedback from "@/components/blocks/reusable/charts/GetFeedback"
+import { useTranslation } from "react-i18next"
 
 export default function InterviewResult() {
+    const { t } = useTranslation('common');
     // Answers state get the sessionStorege answers  
     const [answers, setAnswers] = useState<Record<string, string>>({})
     const [questions, setQuestions] = useState<Question[]>([])
@@ -89,12 +91,12 @@ export default function InterviewResult() {
         setTotalScore(total)
     })
 
-    const getScoreMessage = (score: number) => {
-        if (score >= 45) return "Excellent! You have a strong grasp of the concepts.";
-        if (score >= 35) return "Great job! You have a solid understanding.";
-        if (score >= 25) return "Good effort! There are some areas for improvement.";
-        if (score >= 15) return "You're on the right track, but there's more to learn.";
-        return "It looks like you're just getting started. Keep practicing!";
+    const getScoreMessage = (score: number, t: (key: string) => string) => {
+        if (score >= 45) return t('ScoreMessage4');
+        if (score >= 35) return t('ScoreMessage3');
+        if (score >= 25) return t('ScoreMessage2');
+        if (score >= 15) return t('ScoreMessage1');
+        return t('ScoreMessage0');
     }
     const chartData = [
         { Bölüm: profession, puan: totalScore },

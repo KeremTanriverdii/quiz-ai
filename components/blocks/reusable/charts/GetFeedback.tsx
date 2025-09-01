@@ -1,12 +1,11 @@
 "use client"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { useState } from "react"
-import { Button } from "../../../components/ui/button"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Bar, BarChart, CartesianGrid, Cell, Label, LabelList, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart, XAxis } from "recharts"
 import { TrendingUp } from "lucide-react"
-import { FeedBack } from "@/app/interview/result/page"
-import { colorMap2 } from "@/components/data/type"
+import { colorMap2, FeedBack } from "@/components/data/type"
+import { Button } from "@/components/ui/button"
 
 
 export default function GetFeedback({ question, answer, feedback }: {
@@ -62,8 +61,6 @@ export default function GetFeedback({ question, answer, feedback }: {
         }
         return acc
     }, {} as Record<string, { label: string; color: string }>) || {}
-
-    console.log(chartConfig, chartData)
     return (
         <div className="h-full">
             <Card className="h-full">

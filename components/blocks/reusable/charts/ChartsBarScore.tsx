@@ -8,7 +8,7 @@ import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts'
 export default function ChartsBarScore({ chartBarData, chartBarConfig, getScoreMessage, techScors }: {
     chartBarData: any[];
     chartBarConfig: Record<string, { label: string; color: string }>;
-    getScoreMessage: (score: number) => string;
+    getScoreMessage: (score: number, t: (key: string) => string) => string;
     techScors: any[];
 }) {
 

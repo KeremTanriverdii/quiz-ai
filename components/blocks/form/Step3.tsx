@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useEffect, useMemo, useState, useActionState } from 'react';
-import { Button } from '../components/ui/button';
-import { ToggleGroup, ToggleGroupItem } from '../components/ui/toggle-group';
-import { Toggle } from '../components/ui/toggle';
-import { generateQuestion } from './action';
 import { useRouter } from 'next/navigation';
-import { getDisabledOptions, profess } from '../../components/data/profession';
+import { generateQuestion } from '@/app/interview/action';
+import { getDisabledOptions, profess } from '@/components/data/profession';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { Button } from '@/components/ui/button';
 
 const initialState = null
 async function generateQuestionWithState(_: any, formData: FormData) {

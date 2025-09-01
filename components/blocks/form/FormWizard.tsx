@@ -6,6 +6,7 @@ import Step3 from './Step3';
 
 export default function FormWizard() {
     const [step, setStep] = useState<number>(1);
+
     return (
         <div>
             {step === 1 && <Step1 onNext={() => setStep(2)} />}

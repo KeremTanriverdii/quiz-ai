@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react'
-import { RadioGroup, RadioGroupItem } from '../../../components/ui/radio-group';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 
 interface RadioButtonQuestionsProps {
     options: string[];
