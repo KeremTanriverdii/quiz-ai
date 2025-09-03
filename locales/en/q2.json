@@ -1,0 +1,18 @@
+{
+  "back": "Back",
+  "based": "This score is based on your answers.",
+  "FieldScore": "Field Score For Technologies",
+  "hint": "Hint",
+  "keep": "Keep working on it!",
+  "next": "Next",
+  "questions": "Questions",
+  "ScoreMessage0": "It looks like you're just getting started. Keep practicing!",
+  "ScoreMessage1": "You're on the right track, but there's more to learn.",
+  "ScoreMessage2": "Good effort! There are some areas for improvement.",
+  "ScoreMessage3": "Great job! You have a solid understanding.",
+  "ScoreMessage4": "Excellent! You have a strong grasp of the concepts.",
+  "showResut": "Show Result",
+  "start": "Start",
+  "totalScore": "Total Score",
+  "welcome": "Welcome The Quiz AI"
+}

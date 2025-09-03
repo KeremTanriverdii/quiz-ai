@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { getServerSession } from "next-auth";
-import SessionProvider from "../components/auth/SessionProvider";
-import NavMenu from "../components/NavMenu";
+// import SessionProvider from "../components/auth/SessionProvider";
+import NavMenu from "@/components/NavMenu";
+import { getDictionary } from "./dictionaries";
+import Language from "@/components/Language";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,17 +24,21 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  params
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ lang: 'en | tr | fr | de | hi | zh' }>
 }>) {
+  const { lang } = await params;
   const session = await getServerSession();
   return (
-    <html lang="en">
+    <html lang={lang}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* <SessionProvider session={session}> */}
         <NavMenu />
+        {/* <Language /> */}
         <main>
           {children}
         </main>

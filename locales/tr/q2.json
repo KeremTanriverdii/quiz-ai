@@ -1,0 +1,18 @@
+{
+  "back": "Geri",
+  "based": "Bu puan, cevaplarına göre verilmiştir.",
+  "FieldScore": "Teknolojiler İçin Alan Puanı",
+  "hint": "İpucu",
+  "keep": "Üzerinde çalışmaya devam et!",
+  "next": "İleri",
+  "questions": "Sorular",
+  "ScoreMessage0": "Görünüşe göre daha yeni başlıyorsun. Pratik yapmaya devam et!",
+  "ScoreMessage1": "Doğru yoldasın, ama öğrenecek daha çok şey var.",
+  "ScoreMessage2": "İyi çaba! Geliştirmen gereken bazı alanlar var.",
+  "ScoreMessage3": "Harika iş! Konuyu iyi anlamışsın.",
+  "ScoreMessage4": "Mükemmel! Kavramlara sağlam bir şekilde hakimsin.",
+  "showResut": "Sonucu Göster",
+  "start": "Başla",
+  "totalScore": "Toplam Puan",
+  "welcome": "Quiz AI'ya Hoşgeldiniz."
+}

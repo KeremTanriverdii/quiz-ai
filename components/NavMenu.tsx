@@ -6,6 +6,7 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import LanguageChanger from "./Language";
 
 
 function AuthButton() {
@@ -17,29 +18,7 @@ function AuthButton() {
 
                 <Image src='/interview-ai.png' width={50} height={50} alt="Interview-ai logo" />
 
-                <DropdownMenu>
-                    <DropdownMenuTrigger >
-                        <Button variant={"outline"}>Lang</Button>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem>
-                                <Link href="/" locale="en-US">en</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/" locale="tr-TR">tr</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/" locale="hi">hi</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/" locale="ch-ZW">ch</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/" locale="fr">fr</Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-
-                    </DropdownMenuTrigger>
-                </DropdownMenu>
+                <LanguageChanger />
 
                 <DropdownMenu >
                     <DropdownMenuTrigger>

@@ -1,37 +1,43 @@
-import Link from "next/link";
-import { Button } from "./ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { useState } from "react";
+"use client";
 
-export default function Language() {
-    const [lang, setLang] = useState<string>('en-US');
+import { useRouter, usePathname } from "next/navigation";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "./ui/select";
+
+export default function LanguageChanger() {
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const changeLanguage = (locale: string) => {
+        const segments = pathname.split('/');
+        segments[1] = locale; // URL segmentini değiştir
+        router.push(segments.join('/'));
+
+        // Cookie set et
+        document.cookie = `NEXT_LOCALE=${locale}; path=/`;
+    };
+
 
     return (
-        <div>
-            <DropdownMenu>
-                <DropdownMenuTrigger >
-                    <Button variant={"outline"}>{lang}</Button>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem>
-                            <Link href="/" locale="en-US" >en</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Link href="/" locale="tr-TR">tr</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Link href="/" locale="hi">hi</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Link href="/" locale="ch-ZW">ch</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Link href="/" locale="fr">fr</Link>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-
-                </DropdownMenuTrigger>
-            </DropdownMenu>
-
-        </div>
-    )
+        <Select onValueChange={changeLanguage}>
+            <SelectTrigger className="bg-zinc-700 text-white">
+                <SelectValue placeholder={"Language"} />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectGroup>
+                    {(['en', 'de', 'hi', 'zh', 'fr', 'tr'] as string[]).map((locale) => (
+                        <SelectItem key={locale} value={locale}>
+                            {locale}
+                        </SelectItem>
+                    ))}
+                </SelectGroup>
+            </SelectContent>
+        </Select>
+    );
 }

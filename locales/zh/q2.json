@@ -1,0 +1,18 @@
+{
+  "back": "返回",
+  "based": "该分数基于您的答案。",
+  "FieldScore": "技术领域得分",
+  "hint": "提示",
+  "keep": "继续努力！",
+  "next": "下一个",
+  "questions": "问题",
+  "ScoreMessage0": "看来您才刚刚起步。请继续练习！",
+  "ScoreMessage1": "您走在正确的道路上，但还有更多需要学习。",
+  "ScoreMessage2": "做得不错！还有一些需要改进的地方。",
+  "ScoreMessage3": "干得好！您已经有了扎实的理解。",
+  "ScoreMessage4": "太棒了！您对这些概念有很强的掌握。",
+  "showResut": "显示结果",
+  "start": "开始",
+  "totalScore": "总分",
+  "welcome": "您好，欢迎使用 Quiz AI!"
+}
