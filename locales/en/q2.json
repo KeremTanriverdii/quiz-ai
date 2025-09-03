@@ -14,5 +14,9 @@
   "showResut": "Show Result",
   "start": "Start",
   "totalScore": "Total Score",
+<<<<<<< HEAD
   "welcome": "Welcome The Quiz AI"
+=======
+  "welcome": "Welcome"
+>>>>>>> 339fdd1d3cd7527f7b4726dddf84a1848ce78637
 }

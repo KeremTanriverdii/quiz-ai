@@ -14,5 +14,9 @@
   "showResut": "Sonucu Göster",
   "start": "Başla",
   "totalScore": "Toplam Puan",
+<<<<<<< HEAD
   "welcome": "Quiz AI'ya Hoşgeldiniz."
+=======
+  "welcome": "Hoş Geldiniz"
+>>>>>>> 339fdd1d3cd7527f7b4726dddf84a1848ce78637
 }

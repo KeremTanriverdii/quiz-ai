@@ -14,5 +14,9 @@
   "showResut": "Ergebnis anzeigen",
   "start": "Starten",
   "totalScore": "Gesamtpunktzahl",
+<<<<<<< HEAD
   "welcome": "Willkommen bei Quiz AI"
+=======
+  "welcome": "Willkommen"
+>>>>>>> 339fdd1d3cd7527f7b4726dddf84a1848ce78637
 }

@@ -3,9 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+<<<<<<< HEAD
     "dev": "next dev && --turbopack",
     "build": "next build",
     "start": "next start",
+=======
+    "dev": "i18nexus pull && next dev --turbopack",
+    "build": "i18nexus pull && next build",
+    "start": "i18nexus pull && next start",
+>>>>>>> 339fdd1d3cd7527f7b4726dddf84a1848ce78637
     "lint": "next lint"
   },
   "dependencies": {

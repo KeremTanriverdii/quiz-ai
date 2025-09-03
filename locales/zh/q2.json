@@ -14,5 +14,9 @@
   "showResut": "显示结果",
   "start": "开始",
   "totalScore": "总分",
+<<<<<<< HEAD
   "welcome": "您好，欢迎使用 Quiz AI!"
+=======
+  "welcome": "欢迎"
+>>>>>>> 339fdd1d3cd7527f7b4726dddf84a1848ce78637
 }
