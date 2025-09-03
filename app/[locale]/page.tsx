@@ -13,7 +13,7 @@ export default async function Home({ params, }: { params: Promise<{ locale: 'en'
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <p className="text-2xl font-bold">Welcome to Quiz AI</p>
         <Button className="mt-4 dark:bg-white">
-          <Link href='/form'></Link>
+          <Link href='/form'>{dict.start}</Link>
         </Button>
       </main>
 
