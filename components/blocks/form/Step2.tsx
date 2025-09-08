@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { profess } from '@/components/data/profession'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Button } from '@/components/ui/button'
@@ -8,9 +8,11 @@ import { Label } from '@/components/ui/label'
 interface Props {
     onNext: () => void
     onBack: () => void
+    data: any,
+    id: string
 }
 
-export default function Step2({ onNext, onBack }: Props) {
+export default function Step2({ onNext, onBack, data, id }: Props) {
     const [level, setLevel] = useState<string>('')
     const [inputValue, setInputValue] = useState<string>('');
 
@@ -25,11 +27,16 @@ export default function Step2({ onNext, onBack }: Props) {
 
     }, [inputValue]);
 
+    const [datax, setData] = useState<any>(data)
+    console.log(datax)
     return (
         <>
             <div className="flex flex-col gap-4 w-full">
-                <h2>Seçilen Seviye: <strong>{level}</strong></h2>
-                <Label className="text-lg font-medium">Hangi alanda test yapmak istiyorsunuz?</Label>
+                <div className="flex justify-between">
+                    <Label className="text-lg font-medium">{datax.welcome}</Label>
+                    <Label>{id}/3</Label>
+                </div>
+                <h2>{datax.choosenLevel} <strong>{level.slice(0, 1).toUpperCase() + level.slice(1)}</strong></h2>
                 {/* <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Örnek: frontend, backend, full stack..." /> */}
                 <div className=''>
@@ -44,9 +51,11 @@ export default function Step2({ onNext, onBack }: Props) {
                         ))}
                     </RadioGroup>
                 </div>
-                <p>Kullanılacak teknoloji seçimi ilerdeki sayfada yapılacaktır.</p>
-                <Button onClick={onNext} className="w-fit">İlerle</Button>
-                <Button onClick={onBack} className="w-fit">Geri</Button>
+                <p className='lg:mt-10 lg:mb-10'>{datax.informNext}</p>
+                <div className='flex gap-2 justify-center'>
+                    <Button onClick={onBack} className="w-fit">{datax.back}</Button>
+                    <Button onClick={onNext} className="w-fit" disabled={!inputValue}>{datax.next}</Button>
+                </div>
             </div>
         </>
     )

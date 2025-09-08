@@ -1,10 +1,12 @@
-import FormWizard from '@/components/blocks/form/FormWizard'
-import React from 'react'
+import FormWizard from "@/components/blocks/form/FormWizard";
+import { getDictionary } from "../dictionaries";
 
-export default function page() {
+export default async function page({ params }: { params: { locale: string } }) {
+    const { locale } = await params;
+    const disc = await getDictionary(locale);
     return (
         <div>
-            <FormWizard />
+            <FormWizard data={disc} />
         </div>
     )
 }

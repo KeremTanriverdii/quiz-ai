@@ -16,18 +16,18 @@ const profess: Profession[] = [
         id: 'frontend',
         name: 'Frontend Developer',
         stack: [
-            { name: 'Temel Teknolojiler', options: ["HTML", "CSS", "JavaScript"], type: 'multi', },
+            { name: 'Basic Technologies', options: ["HTML", "CSS", "JavaScript"], type: 'multi', },
             { name: 'Framework', options: ['React', 'Vue.js', 'Angular'], type: 'single' },
             { name: 'CSS Library', options: ['Tailwind CSS', 'Bootstrap', 'Sass', 'Bulma'], type: 'single' },
-            { name: 'Tip Belirtme', options: ["TypeScript"], type: 'single' },
+            { name: 'Type', options: ["TypeScript"], type: 'single' },
             { name: 'Server Side Framework', options: ['Next.js', 'Nuxt.js'], type: 'single' },
             { name: 'State Managament', options: ["Redux", "Zustand", "Recoil", "Jotai"], type: 'single' },
             { name: 'Component Library', options: ["Material UI", "Chakra UI", "Ant Design", "Shadcn UI"], type: "single" },
             { name: 'Bundler', options: ['Webpack', 'Vite'], type: 'single' },
             { name: 'Testing Tools', options: ['Jest', 'Cypress'], type: 'single' },
             { name: 'Deployment', options: ['Vercel', 'Netlify'], type: 'single' },
-            { name: 'Paket Yönetimi', options: ['npm', 'yarn'], type: 'multi' },
-            { name: 'Versiyon Kontrol', options: ['Git', 'Cvs'], type: 'single' },
+            { name: 'Package Management', options: ['npm', 'yarn'], type: 'multi' },
+            { name: 'Version Control', options: ['Git', 'Cvs'], type: 'single' },
 
             // { name: 'Styling', options: ["CSS Modules", "Styled Components"], type: 'single' }
         ]

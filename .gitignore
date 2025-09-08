@@ -41,5 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
-/app/interview/action.ts
-/public/locales
+/app/[locale]/interview/action.ts

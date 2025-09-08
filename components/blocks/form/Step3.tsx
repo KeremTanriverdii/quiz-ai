@@ -2,10 +2,12 @@
 
 import React, { useEffect, useMemo, useState, useActionState } from 'react';
 import { useRouter } from 'next/navigation';
-import { generateQuestion } from '@/app/interview/action';
 import { getDisabledOptions, profess } from '@/components/data/profession';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Button } from '@/components/ui/button';
+import { generateQuestion } from '@/app/[locale]/interview/action';
+import { Label } from '@/components/ui/label';
+import PendingButtton from './PendingButtton';
 
 const initialState = null
 async function generateQuestionWithState(_: any, formData: FormData) {
@@ -16,15 +18,19 @@ type Selection = Record<string, string | string[]>;
 
 interface Props {
     onBack: () => void;
+    data: string[]
+    id: string
 }
 
-export default function Step3({ onBack }: Props) {
+export default function Step3({ onBack, data, id }: Props) {
+
     const [selections, setSelections] = useState<Selection>({});
     const [selectedLevel, setSelectedLevel] = useState<string>('');
     const [selectedProfession, setSelectedProfession] = useState<string>('');
     const disabledOptions = useMemo(() => getDisabledOptions(selections), [selections]);
-
+    const [datax, setDatax] = useState<any>(data)
     const [state, formAction] = useActionState(generateQuestionWithState, initialState)
+    const [pending, setPending] = useState(false)
     const router = useRouter();
 
     useEffect(() => {
@@ -72,6 +78,7 @@ export default function Step3({ onBack }: Props) {
 
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        setPending(true)
         e.preventDefault()
 
         const formData = new FormData()
@@ -88,7 +95,7 @@ export default function Step3({ onBack }: Props) {
             level: result.level,
             stack: result.stack
         }))
-
+        setPending(false)
         router.push("/interview/questions")
     }
 
@@ -99,15 +106,20 @@ export default function Step3({ onBack }: Props) {
             <input type='hidden' name='level' value={selectedLevel} />
             <input type='hidden' name='stack' value={JSON.stringify(selections)} />
 
-            <div>
+            <div className='flex flex-col font-bold'>
+                <div className='flex justify-between font-bold lg:mb-3'>
+                    <Label>{datax.choosenLevel + " " + selectedLevel.slice(0, 1).toUpperCase() + selectedLevel.slice(1)}</Label>
+                    <Label>{id}/3</Label>
+                </div>
+
+                {/* <Label>{} </Label> */}
                 <div>
-                    {selectedLevel}
-                    {selectedProfession}
+                    {datax.choosenField} {selectedProfession}
                 </div>
                 {filteredProfession.map((profession) => (
                     <div key={profession.id} >
                         {profession.stack.map((item) => (
-                            <div key={item.name} className='flex flex-col mx-xl-20 xl:mt-20 border-2 lg:p-5  w-full gap-6'>
+                            <div key={item.name} className='flex flex-col mx-xl-16 xl:mt-10 border-2 lg:p-5  w-full gap-6'>
                                 <h4 className='font-semibold mb-2 pb-1 '>{item.name}</h4>
 
                                 {/* MULTI SELECTION → ToggleGroup */}
@@ -162,9 +174,11 @@ export default function Step3({ onBack }: Props) {
             </div>
             <div className='flex justify-center gap-2'>
                 <Button type='button' onClick={onBack}>
-                    Geri
+                    {datax.back}
                 </Button>
-                <Button type='submit'>Mülakatı Başlat</Button>
+                {pending && <PendingButtton onOpen={pending} />}
+
+                <Button disabled={!selections} type='submit'>start</Button>
             </div>
         </form>
     );

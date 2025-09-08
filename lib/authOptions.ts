@@ -17,16 +17,15 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         async jwt({ token, user, trigger }) {
             if (user) {
-                token.id = (user as any).id,
-                    token.role = (user as any).role ?? "user"
+                token.id = (user as any).id;
+                token.role = (user as any).role ?? "user";
                 token.exp = Math.floor(Date.now() / 1000) + 60 * 60;
             }
             if (trigger === 'update' && !token.exp) {
                 token.exp = Math.floor(Date.now() / 1000) + 60 * 60;
-                // token.role = session.role as string;
             }
             if (Date.now() / 1000 < (token.exp as number)) {
-                return {}
+                return token; // <-- FIXED
             }
 
             token.exp = Math.floor(Date.now() / 1000) + 60 * 60;
@@ -38,7 +37,9 @@ export const authOptions: NextAuthOptions = {
                 (session.user as any).id = token.id as string;
                 (session.user as any).role = (token.role as string) ?? "user";
             }
-            session.expires = new Date((token.exp as number) * 1000).toISOString();
+            session.expires = token.exp
+                ? new Date((token.exp as number) * 1000).toISOString()
+                : ""; // <-- FIXED
             return session;
         },
     },

@@ -14,5 +14,9 @@
   "showResut": "Ergebnis anzeigen",
   "start": "Starten",
   "totalScore": "Gesamtpunktzahl",
-  "welcome": "Willkommen"
+  "welcome": "Willkommen bei Quiz AI",
+  "preparation": "Vorbereitung",
+  "formlevel": "Wählen Sie Ihr Niveau.",
+  "selectField": "In welchem Bereich möchten Sie getestet werden?",
+  "informNext": "Die zu verwendenden Technologien werden auf der nächsten Seite ausgewählt."
 }

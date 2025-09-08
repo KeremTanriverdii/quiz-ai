@@ -7,21 +7,23 @@ import { useEffect, useState } from "react"
 
 interface Props {
   onNext: () => void
+  data: string[],
+  id: string
 }
 
-export default function Step1({ onNext }: Props) {
+export default function Step1({ onNext, data, id }: Props) {
   const [level, setLevel] = useState<string>('');
-
+  const [datax, setData] = useState<any>(data)
   useEffect(() => {
     localStorage.setItem('level', level);
   }, [level])
-
   return (
     <>
       <div>
-        {/* <h2>Seçilen Alan: <strong>{inputValue}</strong></h2> */}
-        <Label>Hangi seviyede olduğunuzu seçiniz.</Label>
-
+        <div className="flex justify-between">
+          <Label>{datax.formlevel}</Label>
+          <Label>{id}/3</Label>
+        </div>
         <RadioGroup onValueChange={setLevel} value={level} className='mt-5'>
           {['junior', 'mid', 'senior', 'lead'].map((lvl) => (
             <div key={lvl} className='flex items-center space-x-2'>
@@ -31,8 +33,8 @@ export default function Step1({ onNext }: Props) {
           ))}
         </RadioGroup>
 
-        <Button onClick={onNext} className="mt-4 dark:bg-white">
-          İlerle
+        <Button onClick={onNext} className="mt-4 dark:bg-white" disabled={!level}>
+          {datax.next}
         </Button>
       </div>
 

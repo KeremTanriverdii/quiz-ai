@@ -1,30 +1,34 @@
 "use client"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
+import { get } from 'http'
+import { t } from 'i18next'
 import { TrendingUp } from 'lucide-react'
 import React from 'react'
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts'
 
-export default function ChartsBarScore({ chartBarData, chartBarConfig, getScoreMessage, techScors }: {
+export default function ChartsBarScore({ chartBarData, chartBarConfig, getScoreMessage, techScors, data }: {
     chartBarData: any[];
     chartBarConfig: Record<string, { label: string; color: string }>;
     getScoreMessage: (score: number, t: (key: string) => string) => string;
     techScors: any[];
+    data: any
 }) {
-
     const getColorbyScore = (score: number) => {
-        if (score <= 4) return 'red';
-        if (score <= 7) return 'yellow';
-        return 'green';
+        if (score <= 4) return '#808080';
+        if (score <= 6) return '#ADD8E6'
+        return '#0000FF';
     }
+    console.log(data)
     return (
         <div>
             <Card>
                 <CardHeader>
-                    <CardTitle>Bar Chart - Label</CardTitle>
-                    <CardDescription>January - June 2024</CardDescription>
+                    {/* <CardTitle>{data.totalScore}</CardTitle> */}
+                    {/* <CardDescription>{data.totalScoreDescription}</CardDescription> */}
                 </CardHeader>
                 <CardContent>
+                    {getScoreMessage(techScors.reduce((a, b) => a + b.scors, 0), t)}
                     <ChartContainer config={chartBarConfig}>
                         <BarChart
                             accessibilityLayer

@@ -14,5 +14,14 @@
   "showResut": "Sonucu Göster",
   "start": "Başla",
   "totalScore": "Toplam Puan",
-  "welcome": "Hoş Geldiniz"
+  "totalScoreDescription": "Bu puanlama bütün soruların genel notudur.",
+  "welcome": "Quiz AI'ya Hoşgeldiniz.",
+  "preparation": "Hazırlık",
+  "formlevel": "Seviyenizi seçin.",
+  "selectField": "Hangi alanda test olmak istersiniz?",
+  "informNext": "Kullanılacak teknolojiler bir sonraki sayfada seçilecektir.",
+  "interviewLayout": "Mülakat Hazırlık Formu",
+  "choosenLevel": "Seçilen Seviye:",
+  "choosenField": "Seçilen Alan",
+  "yourAnswer": "Cavabınız"
 }

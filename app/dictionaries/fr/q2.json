@@ -14,5 +14,14 @@
   "showResut": "Afficher le résultat",
   "start": "Démarrer",
   "totalScore": "Score total",
-  "welcome": "Bienvenue"
+  "welcome": "Bienvenue sur Quiz AI",
+  "preparation": "Préparation",
+  "formlevel": "Sélectionnez votre niveau.",
+  "selectField": "Dans quel domaine souhaitez-vous être testé?",
+  "informNext": "Les technologies à utiliser seront sélectionnées sur la page suivante.",
+  "interviewLayout": "Formulaire de préparation à l'entretien",
+  "choosenLevel": "Niveau sélectionné:",
+  "choosenField": "Zone sélectionnée:",
+  "yourAnswer": "Votre Réponse",
+  "totalScoreDescription": "C'est la note globale pour toutes les questions."
 }

@@ -6,24 +6,27 @@ import { TrendingUp } from 'lucide-react'
 import React from 'react'
 import { Label, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts'
 
-export default function ChartsTotal({ totalScore, getScoreMessage, chartData, chartConfig }: {
+export default function ChartsTotal({ totalScore, getScoreMessage, chartData, chartConfig, data }: {
     totalScore: number,
     getScoreMessage: (score: number, t: (key: string) => string) => string,
     chartData: any[],
-    chartConfig: any
+    chartConfig: any,
+    data: any
 }) {
 
+    // const datax = data || null
     const getColorbyScore = (score: number) => {
         if (score >= 70) return 'green';
         if (score >= 50) return 'yellow';
         return 'red';
     }
+
     return (
         <div>
             <Card className="flex flex-col">
                 <Skeleton className="rounded-xl" />
                 <CardHeader className="items-center pb-0">
-                    <CardTitle>Total Score</CardTitle>
+                    {/* <CardTitle>{datax.totalScore}</CardTitle> */}
                     <CardDescription>{getScoreMessage(totalScore, t)}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 pb-0">

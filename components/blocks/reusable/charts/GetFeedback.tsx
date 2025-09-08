@@ -8,11 +8,13 @@ import { colorMap2, FeedBack } from "@/components/data/type"
 import { Button } from "@/components/ui/button"
 
 
-export default function GetFeedback({ question, answer, feedback }: {
+export default function GetFeedback({ question, answer, feedback, data }: {
     question: { id: number, text: string, hint: string }[],
     answer: Record<string, string>,
-    feedback: Record<number, FeedBack>
+    feedback: Record<number, FeedBack>,
+    data: any
 }) {
+    // const datax = data || null
     const [selectionQuestion, setSelectionQuestion] = useState<number | null>(null);
 
     const handleRenderforQId = (id: number) => {
@@ -64,7 +66,7 @@ export default function GetFeedback({ question, answer, feedback }: {
     return (
         <div className="h-full">
             <Card className="h-full">
-                <CardTitle>Questions</CardTitle>
+                {/* <CardTitle>{datax.questions}</CardTitle> */}
                 {selectionQuestion === null && (
                     <CardContent className="grid grid-cols-3 gap-5 text-center">
                         {question.map(q => (
@@ -94,7 +96,7 @@ export default function GetFeedback({ question, answer, feedback }: {
                                 <CardContent>
                                     <div className="flex flex-col lg:mt-10">
                                         <CardHeader className="items-center pb-0">
-                                            <CardTitle>Total Score</CardTitle>
+                                            {/* <CardTitle>{datax.totalScore}</CardTitle> */}
                                             <CardDescription>{getScoreMessageForQuestion(Number(feedback[selectionQuestion]?.score))}</CardDescription>
                                         </CardHeader>
                                         <CardContent className="flex-1 pb-0">

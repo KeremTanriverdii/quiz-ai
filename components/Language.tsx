@@ -16,26 +16,34 @@ export default function LanguageChanger() {
 
     const changeLanguage = (locale: string) => {
         const segments = pathname.split('/');
-        segments[1] = locale; // URL segmentini değiştir
+
+        if (!["tr", "en", "de", "fr", "zh", "hi"].includes(segments[1])) {
+            segments.splice(1, 0, locale); // if there is no locale in the path, add it
+        } else {
+            segments[1] = locale; // if there is a locale, change it
+        }
+
+
         router.push(segments.join('/'));
-
-        // Cookie set et
+        // Set cookie
         document.cookie = `NEXT_LOCALE=${locale}; path=/`;
-    };
+    }
 
+    const currentLocale = ['tr', 'en', 'de', 'fr', 'zh', 'hi'].includes(pathname.split('/')[1]) ? pathname.split('/')[1] : 'en';
 
     return (
-        <Select onValueChange={changeLanguage}>
+        <Select onValueChange={changeLanguage} defaultValue={currentLocale}>
             <SelectTrigger className="bg-zinc-700 text-white">
-                <SelectValue placeholder={"Language"} />
+                <SelectValue placeholder={"Lang"} />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    {(['en', 'de', 'hi', 'zh', 'fr', 'tr'] as string[]).map((locale) => (
-                        <SelectItem key={locale} value={locale}>
-                            {locale}
-                        </SelectItem>
-                    ))}
+                    <SelectItem value="tr">tr</SelectItem>
+                    <SelectItem value="en">en</SelectItem>
+                    <SelectItem value="de">de</SelectItem>
+                    <SelectItem value="fr">fr</SelectItem>
+                    <SelectItem value="hi">hi</SelectItem>
+                    <SelectItem value="zh">zh</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>

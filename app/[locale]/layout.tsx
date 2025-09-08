@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { getServerSession } from "next-auth";
-// import SessionProvider from "../components/auth/SessionProvider";
+import { getServerSession, Session } from "next-auth";
 import NavMenu from "@/components/NavMenu";
-import { getDictionary } from "./dictionaries";
-import Language from "@/components/Language";
+import { authOptions } from "@/lib/authOptions";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,19 +28,16 @@ export default async function RootLayout({
   params: Promise<{ lang: 'en | tr | fr | de | hi | zh' }>
 }>) {
   const { lang } = await params;
-  const session = await getServerSession();
+  const session: Session | null = await getServerSession(authOptions);
   return (
     <html lang={lang}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <SessionProvider session={session}> */}
-        <NavMenu />
-        {/* <Language /> */}
-        <main>
+        <NavMenu user={session} />
+        <main className="lg:mt-15 items-center justify-center flex flex-col">
           {children}
         </main>
-        {/* </SessionProvider> */}
       </body>
     </html>
   );

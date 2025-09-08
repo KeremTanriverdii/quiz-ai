@@ -3,21 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-<<<<<<< HEAD
-    "dev": "next dev && --turbopack",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-=======
-    "dev": "i18nexus pull && next dev --turbopack",
-    "build": "i18nexus pull && next build",
-    "start": "i18nexus pull && next start",
->>>>>>> 339fdd1d3cd7527f7b4726dddf84a1848ce78637
     "lint": "next lint"
   },
   "dependencies": {
     "@google/genai": "^1.12.0",
     "@google/generative-ai": "^0.24.1",
     "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-dropdown-menu": "^2.1.15",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-progress": "^1.1.7",

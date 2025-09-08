@@ -14,5 +14,14 @@
   "showResut": "Ergebnis anzeigen",
   "start": "Starten",
   "totalScore": "Gesamtpunktzahl",
-  "welcome": "Willkommen"
+  "welcome": "Willkommen bei Quiz AI",
+  "preparation": "Vorbereitung",
+  "formlevel": "Wählen Sie Ihr Niveau.",
+  "selectField": "In welchem Bereich möchten Sie getestet werden?",
+  "informNext": "Die zu verwendenden Technologien werden auf der nächsten Seite ausgewählt.",
+  "interviewLayout": "Formular zur Vorbereitung auf ein Vorstellungsgespräch",
+  "choosenLevel": "Ausgewähltes Level:",
+  "choosenField": "Ausgewählter Bereich:",
+  "yourAnswer": "Ihre Antwort:",
+  "totalScoreDescription": "Das ist die Gesamtnote für alle Fragen."
 }

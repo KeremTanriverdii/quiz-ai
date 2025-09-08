@@ -14,5 +14,14 @@
   "showResut": "显示结果",
   "start": "开始",
   "totalScore": "总分",
-  "welcome": "欢迎"
+  "welcome": "您好，欢迎使用 Quiz AI!",
+  "preparation": "面试准备表",
+  "formlevel": "选择您所在的级别。",
+  "selectField": "您想在哪个区域进行测试?",
+  "informNext": "将在下一页选择要使用的技术。",
+  "interviewLayout": "面试准备表",
+  "choosenLevel": "所选级别：",
+  "choosenField": "所选区域",
+  "yourAnswer": "您的答案",
+  "totalScoreDescription": "这是所有问题的总分。"
 }

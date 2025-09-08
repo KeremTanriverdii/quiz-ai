@@ -14,5 +14,14 @@
   "showResut": "Show Result",
   "start": "Start",
   "totalScore": "Total Score",
-  "welcome": "Welcome"
+  "welcome": "Welcome The Quiz AI",
+  "preparation": "Preparation",
+  "formlevel": "Select your level.",
+  "selectField": "Which area would you like to be tested on?",
+  "informNext": "The technologies to be used will be selected on the next page.",
+  "interviewLayout": "Interview preparation form",
+  "choosenLevel": "Selected Level:",
+  "choosenField": "Selected Field:",
+  "yourAnswer": "Your Answer",
+  "totalScoreDescription": "This is the overall score for all the questions."
 }

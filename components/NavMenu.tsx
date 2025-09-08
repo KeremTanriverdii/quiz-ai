@@ -1,90 +1,71 @@
-"use client";
-
-import { useSession, signIn, signOut } from "next-auth/react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import Image from "next/image";
 import { Button } from "./ui/button";
-import Link from "next/link";
 import LanguageChanger from "./Language";
+import AuthButtons from "./blocks/Auth/AuthButtons";
+import { Session } from "next-auth";
+import Logout from "./blocks/Auth/Logout";
+import Link from "next/link";
+
+const linkItems = [
+    { id: 0, title: 'Ana Sayfa', url: '/' },
+    { id: 1, title: 'Özellikler', url: '/#features' },
+    { id: 2, title: 'İletişim', url: 'contact' },
+]
 
 
-function AuthButton() {
-    // const { data: session } = useSession();
-    // if (session) {
+function AuthButton({ session }: { session: Session | null }) {
+
+    if (!session) {
+        return (
+            <AuthButtons />
+        )
+    }
     return (
         <>
-            <div className="flex items-center justify-between p-2 rounded-2xl">
+            <div className="flex items-center justify-between mb-2 p-2 bg-zinc-600">
+                <Link href='/'>
+                    <Image src='/withai.png' width={50} height={50} alt="Interview-ai logo" className="rounded-full" />
+                </Link>
 
-                <Image src='/interview-ai.png' width={50} height={50} alt="Interview-ai logo" />
+                <div className="hidden md:flex gap-5 font-semibold">
+                    {linkItems.map((item) => (
+                        <Link href={item.url} key={item.id}>
+                            {item.title}
+                        </Link>
+                    ))}
+                </div>
 
-<<<<<<< HEAD
-                <LanguageChanger />
-=======
-                <DropdownMenu>
-                    <DropdownMenuTrigger >
-                        <div className="p-2 bg-zinc-500 rounded-2xl">Lang</div>
-                        <DropdownMenuContent>
-                            <DropdownMenuItem>
-                                <Link href="/" locale="en-US">en</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/" locale="tr-TR">tr</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/" locale="hi">hi</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/" locale="ch-ZW">ch</Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/" locale="fr">fr</Link>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-
-                    </DropdownMenuTrigger>
-                </DropdownMenu>
->>>>>>> 339fdd1d3cd7527f7b4726dddf84a1848ce78637
-
-                <DropdownMenu >
-                    <DropdownMenuTrigger>
-                        {/* <Avatar>
-                                <AvatarImage src={session.user?.image || "/default-avatar.png"} alt="User Avatar" />
-                            </Avatar> */}
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem>
-                            <Button onClick={() => signOut()} className="btn btn-primary">
-                                Sign Out
-                            </Button>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex items-center gap-4 h">
+                    <LanguageChanger />
+                    {session &&
+                        <DropdownMenu >
+                            <DropdownMenuTrigger className="outline-none flex items-center gap-2">
+                                {session.user?.name && <span className="p-2 hidden md:flex">{session.user?.name}</span>}
+                                <Avatar>
+                                    <AvatarImage src={session.user?.image || "/default-avatar.png"} alt="User Avatar" />
+                                </Avatar>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuItem>
+                                    <Logout />
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    }
+                </div>
             </div>
-
         </>
     );
 }
 
-//     else {
-//         return (
-//             <>
-//                 Not signed in <br />
-//                 <button onClick={() => signIn('github')} className="btn btn-secondary">
-//                     Sign In with GitHub
-//                 </button>
-//                 <button onClick={() => signIn('google')} className="btn btn-secondary">
-//                     Sign In with Google
-//                 </button>
-//             </>
-//         );
-//     }
-// }
 
-export default function NavMenu() {
+
+export default async function NavMenu({ user }: { user: Session | null }) {
     return (
         <div>
-            <AuthButton />
+            <AuthButton session={user} />
         </div>
     )
 }
