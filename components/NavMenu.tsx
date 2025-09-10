@@ -1,7 +1,6 @@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import Image from "next/image";
-import { Button } from "./ui/button";
 import LanguageChanger from "./Language";
 import AuthButtons from "./blocks/Auth/AuthButtons";
 import { Session } from "next-auth";
@@ -10,21 +9,15 @@ import Link from "next/link";
 
 const linkItems = [
     { id: 0, title: 'Ana Sayfa', url: '/' },
-    { id: 1, title: 'Özellikler', url: '/#features' },
-    { id: 2, title: 'İletişim', url: 'contact' },
+    { id: 1, title: 'Özellikler', url: '/features' },
+    { id: 2, title: 'İletişim', url: '/contact' },
 ]
 
 
 function AuthButton({ session }: { session: Session | null }) {
-
-    if (!session) {
-        return (
-            <AuthButtons />
-        )
-    }
     return (
         <>
-            <div className="flex items-center justify-between mb-2 p-2 bg-zinc-600">
+            <div className="flex items-center justify-between mb-2 p-2 lg:px-5 border-2 rounded-full md:mt-3 md:w-2/3 md:mx-auto border-zinc-800">
                 <Link href='/'>
                     <Image src='/withai.png' width={50} height={50} alt="Interview-ai logo" className="rounded-full" />
                 </Link>
@@ -37,14 +30,15 @@ function AuthButton({ session }: { session: Session | null }) {
                     ))}
                 </div>
 
-                <div className="flex items-center gap-4 h">
+                <div className="flex items-center gap-4 ">
                     <LanguageChanger />
+                    {!session && <AuthButtons />}
                     {session &&
                         <DropdownMenu >
                             <DropdownMenuTrigger className="outline-none flex items-center gap-2">
                                 {session.user?.name && <span className="p-2 hidden md:flex">{session.user?.name}</span>}
                                 <Avatar>
-                                    <AvatarImage src={session.user?.image || "/default-avatar.png"} alt="User Avatar" />
+                                    <AvatarImage src={session.user?.image || 'https://png.pngtree.com/png-vector/20190909/ourmid/pngtree-outline-user-icon-png-image_1727916.jpg'} alt="User Avatar" />
                                 </Avatar>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent>

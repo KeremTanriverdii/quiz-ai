@@ -33,7 +33,7 @@ export default function LanguageChanger() {
 
     return (
         <Select onValueChange={changeLanguage} defaultValue={currentLocale}>
-            <SelectTrigger className="bg-zinc-700 text-white">
+            <SelectTrigger>
                 <SelectValue placeholder={"Lang"} />
             </SelectTrigger>
             <SelectContent>

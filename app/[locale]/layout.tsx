@@ -4,6 +4,7 @@ import "./globals.css";
 import { getServerSession, Session } from "next-auth";
 import NavMenu from "@/components/NavMenu";
 import { authOptions } from "@/lib/authOptions";
+import { cookies } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,15 +30,22 @@ export default async function RootLayout({
 }>) {
   const { lang } = await params;
   const session: Session | null = await getServerSession(authOptions);
+  const cookieStore = cookies()
+  const theme = (await cookieStore).get("theme")?.value || "light"
   return (
-    <html lang={lang}>
+    <html lang={lang} className='dark'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NavMenu user={session} />
-        <main className="lg:mt-15 items-center justify-center flex flex-col">
+        <main className="lg:mt-10 lg:mx-5">
           {children}
         </main>
+
+        <footer className="border-t py-6 text-end px-2 text-sm text-muted-foreground mt-12">
+          <p>© 2025 Kerem Tanrıverdi. All rights reserved.</p>
+
+        </footer>
       </body>
     </html>
   );

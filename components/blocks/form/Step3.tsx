@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import { getDisabledOptions, profess } from '@/components/data/profession';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Button } from '@/components/ui/button';
-import { generateQuestion } from '@/app/[locale]/interview/action';
 import { Label } from '@/components/ui/label';
 import PendingButtton from './PendingButtton';
+import { generateQuestion } from '@/app/[locale]/interview/action';
 
 const initialState = null
 async function generateQuestionWithState(_: any, formData: FormData) {
