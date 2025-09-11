@@ -3,9 +3,9 @@ import Link from "next/link";
 import { getDictionary } from "./dictionaries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Star } from "lucide-react";
-import Image from "next/image";
-export default async function Home({ params, }: { params: Promise<{ locale: 'en' | 'tr' | 'fr' | 'de' | 'hi' | 'zh' }> }) {
-  const { locale } = await params
+import { PageProps } from "./interview/questions/page";
+export default async function Home({ params, }: PageProps) {
+  const { locale } = params
   const dict = await getDictionary(locale);
   if (!dict) {
     return <div>Dictionary not found </div>
@@ -23,13 +23,13 @@ export default async function Home({ params, }: { params: Promise<{ locale: 'en'
             </Button>
           </div>
 
-          <div className="flex justify-evenly items-end h-full">
+          <div className="flex flex-wrap gap-5 justify-evenly items-end h-full">
             <Card className="flex w-auto">
               <CardTitle className="text-2xl">
                 <CardHeader>Quiz Al - Geleceğin Yazılımcısı Olmaya Hazır Mısın?</CardHeader>
               </CardTitle>
               <CardContent className="flex flex-col">
-                <Image src='/illustration.png' width={128} height={120} alt="illustration" className="rounded-full" />
+                {/* <Image src='/illustration.png' width={128} height={120} alt="illustration" className="rounded-full" /> */}
                 <p className="max-w-2xl">
                   Yazılım dünyasında kariyerini bir sonraki seviyeye taşımak isteyenler için Quiz Al, yapay zeka destekli devrim niteliğinde bir platform sunuyor! Rolünüz ne olursa olsun – ister bir DevOps gurusu, ister Front-end büyücüsü, isterse de Back-end mimarı – Quiz Al sizin için kişiselleştirilmiş bir öğrenme ve gelişim deneyimi vaat ediyor.
                 </p>

@@ -5,6 +5,7 @@ import { getServerSession, Session } from "next-auth";
 import NavMenu from "@/components/NavMenu";
 import { authOptions } from "@/lib/authOptions";
 import { cookies } from "next/headers";
+import { PageProps } from "./interview/questions/page";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,14 +27,12 @@ export default async function RootLayout({
   params
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ lang: 'en | tr | fr | de | hi | zh' }>
+  params: PageProps;
 }>) {
-  const { lang } = await params;
+  const { locale } = params.params;
   const session: Session | null = await getServerSession(authOptions);
-  const cookieStore = cookies()
-  const theme = (await cookieStore).get("theme")?.value || "light"
   return (
-    <html lang={lang} className='dark'>
+    <html lang={locale} className='dark'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

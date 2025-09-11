@@ -9,23 +9,24 @@ import TimerComponent from "@/components/TimerComponent";
 
 
 
-export async function generateStaticParams() {
-    const locales = ["tr", "fr", "en", "de", "hi", "zh"] as const;
+export const generateStaticParams = async () => {
+    return [
+        { locale: 'tr' },
+        { locale: 'en' },
+        { locale: 'fr' },
+        { locale: 'de' },
+        { locale: 'hi' },
+        { locale: 'zh' },
+    ];
+};
 
-    return locales.map((locale) => ({
-        locale,
-    }));
+export interface PageProps {
+    params: any
 }
-interface PageProps {
-    params: {
-        locale: "tr" | "fr" | "en" | "de" | "hi" | "zh";
-    };
-    searchParams?: any;
-}
 
 
-export default async function page({ params }: PageProps) {
-    const { locale } = await params;
+export default async function page({ params }: { params: { locale: string } }) {
+    const { locale } = params;
     const session = await getServerSession(authOptions);
     const disc = await getDictionary(locale);
     return (
