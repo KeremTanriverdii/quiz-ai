@@ -23,5 +23,12 @@
   "choosenLevel": "Ausgewähltes Level:",
   "choosenField": "Ausgewählter Bereich:",
   "yourAnswer": "Ihre Antwort:",
-  "totalScoreDescription": "Das ist die Gesamtnote für alle Fragen."
+  "totalScoreDescription": "Das ist die Gesamtnote für alle Fragen.",
+  "home": "Startseite",
+  "contact": "Kontakt",
+  "features": "Merkmale",
+  "subHead": "KI-gestützte Interview-Simulation für Entwickler.",
+  "sectionHeader": "Machen Sie das Quiz - Sind Sie bereit, ein Entwickler der Zukunft zu werden?",
+  "sectionParagrafh": "Für diejenigen, die ihre Software-Karriere auf die nächste Stufe heben möchten, bietet Quiz Al eine revolutionäre KI-gestützte Plattform! Egal, welche Rolle Sie haben – ob Sie ein DevOps-Guru, ein Front-End-Zauberer oder ein Back-End-Architekt sind – Quiz Al verspricht Ihnen ein personalisiertes Lern- und Entwicklungserlebnis.",
+  "selection": "Einige der Bereiche, die Sie auswählen können."
 }

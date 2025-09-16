@@ -23,5 +23,12 @@
   "choosenLevel": "所选级别：",
   "choosenField": "所选区域",
   "yourAnswer": "您的答案",
-  "totalScoreDescription": "这是所有问题的总分。"
+  "totalScoreDescription": "这是所有问题的总分。",
+  "home": "主页",
+  "contact": "联系我们",
+  "features": "功能",
+  "subHead": "针对开发者的AI面试模拟",
+  "sectionHeader": "参加测验 - 你准备好成为未来的开发者了吗？",
+  "sectionParagrafh": "对于希望将软件职业生涯提升到新水平的人来说，Quiz Al 提供了一个革命性的人工智能驱动平台！无论您的角色是什么 - 无论是 DevOps 大师、前端向导还是后端架构师 - Quiz Al 都为您提供个性化的学习和发展体验。",
+  "selection": "您可以选择的一些领域"
 }

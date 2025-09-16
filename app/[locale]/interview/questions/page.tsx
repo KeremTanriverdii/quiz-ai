@@ -7,26 +7,15 @@ import QuestionInfo from "@/components/QuestionInfo";
 import { Card, CardTitle } from "@/components/ui/card";
 import TimerComponent from "@/components/TimerComponent";
 
-
-
-export const generateStaticParams = async () => {
-    return [
-        { locale: 'tr' },
-        { locale: 'en' },
-        { locale: 'fr' },
-        { locale: 'de' },
-        { locale: 'hi' },
-        { locale: 'zh' },
-    ];
-};
-
 export interface PageProps {
-    params: any
+    params: {
+        locale: 'tr' | 'en' | 'hi' | 'de' | 'fr' | 'zh'
+    }
 }
 
 
-export default async function page({ params }: { params: { locale: string } }) {
-    const { locale } = params;
+export default async function page({ params }: { params: Promise<PageProps['params']> }) {
+    const { locale } = await params;
     const session = await getServerSession(authOptions);
     const disc = await getDictionary(locale);
     return (

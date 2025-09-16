@@ -23,5 +23,12 @@
   "choosenLevel": "Selected Level:",
   "choosenField": "Selected Field:",
   "yourAnswer": "Your Answer",
-  "totalScoreDescription": "This is the overall score for all the questions."
+  "totalScoreDescription": "This is the overall score for all the questions.",
+  "home": "Home",
+  "contact": "Contact",
+  "features": "Features",
+  "subHead": "AI-powered interview simulation for developers.",
+  "sectionHeader": "Take the Quiz - Are You Ready to Become a Developer of the Future?",
+  "sectionParagrafh": "For those looking to take their software career to the next level, Quiz Al offers a revolutionary AI-powered platform! No matter your role – whether you're a DevOps guru, a Front-end wizard, or a Back-end architect – Quiz Al promises a personalized learning and development experience just for you.",
+  "selection": "Some of the fields you can choose from."
 }

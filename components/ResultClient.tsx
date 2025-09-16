@@ -24,6 +24,7 @@ export default function ResultClient({ data, user }: { data?: any, user: Session
     const [showHint, setShowHint] = useState<Record<number, boolean>>({})
     const router = useRouter();
     const userInfo = user || null
+
     useEffect(() => {
         const q = sessionStorage.getItem("questions")
 
@@ -55,6 +56,11 @@ export default function ResultClient({ data, user }: { data?: any, user: Session
 
     const currentQuestion = questions[id - 1];
 
+    const handleSendMessage = () => {
+        if (!answers) return
+        setAnswers(answers);
+    }
+
     return (
         <div className="md:col-span-1 lg:col-span-3">
             <form onSubmit={(e) => { e.preventDefault(); handleNextQuestion() }} className="lg:mt-20">
@@ -76,7 +82,13 @@ export default function ResultClient({ data, user }: { data?: any, user: Session
                                     placeholder="Type your answers here."
                                     value={answers[String(currentQuestion.id)] || ""}
                                     onChange={(e) => handleChange(currentQuestion.id, e.target.value)}
-                                    className="border p-2 mt-2 resize-none "
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && !e.shiftKey) {
+                                            e.preventDefault();
+                                            handleSendMessage();
+                                        }
+                                    }}
+                                    className="flex-initial resize-none p-2 rounded-xl border border-[#ccc] min-[40px]:"
                                     style={{ height: '200px' }}
                                 />
                             </div>

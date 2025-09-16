@@ -6,6 +6,8 @@ import NavMenu from "@/components/NavMenu";
 import { authOptions } from "@/lib/authOptions";
 import { cookies } from "next/headers";
 import { PageProps } from "./interview/questions/page";
+import { getDictionary } from "./dictionaries";
+import { langProps } from "@/components/blocks/StartButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,21 +29,22 @@ export default async function RootLayout({
   params
 }: Readonly<{
   children: React.ReactNode;
-  params: PageProps;
+  params: Promise<PageProps['params']>;
 }>) {
-  const { locale } = params.params;
-  const session: Session | null = await getServerSession(authOptions);
+  const { locale } = await params;
+  const session = await getServerSession(authOptions);
+  const disc: langProps = await getDictionary(locale)
   return (
     <html lang={locale} className='dark'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
       >
-        <NavMenu user={session} />
+        <NavMenu session={session} localeData={disc} />
         <main className="lg:mt-10 lg:mx-5">
           {children}
         </main>
 
-        <footer className="border-t py-6 text-end px-2 text-sm text-muted-foreground mt-12">
+        <footer className="border-t py-6 text-start px-2 text-sm text-muted-foreground mt-12">
           <p>© 2025 Kerem Tanrıverdi. All rights reserved.</p>
 
         </footer>

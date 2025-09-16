@@ -6,15 +6,19 @@ import AuthButtons from "./blocks/Auth/AuthButtons";
 import { Session } from "next-auth";
 import Logout from "./blocks/Auth/Logout";
 import Link from "next/link";
-
-const linkItems = [
-    { id: 0, title: 'Ana Sayfa', url: '/' },
-    { id: 1, title: 'Özellikler', url: '/features' },
-    { id: 2, title: 'İletişim', url: '/contact' },
-]
+import { getDictionary } from "@/app/[locale]/dictionaries";
+import { langProps } from "./blocks/StartButton";
+import { PageProps } from "@/app/[locale]/interview/questions/page";
 
 
-function AuthButton({ session }: { session: Session | null }) {
+
+function AuthButton({ session, localeData }: { session: Session | null; localeData: langProps }) {
+    const { home, contact, features } = localeData
+    const linkItems = [
+        { id: 0, title: `${home}`, url: '/' },
+        { id: 1, title: `${features}`, url: '/features' },
+        { id: 2, title: `${contact}`, url: '/contact' },
+    ]
     return (
         <>
             <div className="flex items-center justify-between mb-2 p-2 lg:px-5 border-2 rounded-full md:mt-3 md:w-2/3 md:mx-auto border-zinc-800">
@@ -54,12 +58,15 @@ function AuthButton({ session }: { session: Session | null }) {
     );
 }
 
+interface NavbarProps {
+    session: Session | null
+    localeData: langProps
+}
 
-
-export default async function NavMenu({ user }: { user: Session | null }) {
+export default async function NavMenu({ session, localeData }: NavbarProps) {
     return (
         <div>
-            <AuthButton session={user} />
+            <AuthButton session={session} localeData={localeData} />
         </div>
     )
 }

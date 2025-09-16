@@ -23,5 +23,12 @@
   "interviewLayout": "Mülakat Hazırlık Formu",
   "choosenLevel": "Seçilen Seviye:",
   "choosenField": "Seçilen Alan",
-  "yourAnswer": "Cavabınız"
+  "yourAnswer": "Cavabınız",
+  "contact": "İletişim",
+  "home": "Ana Sayfa",
+  "features": "Özellikler",
+  "subHead": "Yazılımcılar için yapay zeka tabanlı mülakat projesi.",
+  "sectionHeader": "Quiz Al - Geleceğin Yazılımcısı Olmaya Hazır Mısın?",
+  "sectionParagrafh": "Yazılım dünyasında kariyerini bir sonraki seviyeye taşımak isteyenler için Quiz Al, yapay zeka destekli devrim niteliğinde bir platform sunuyor! Rolünüz ne olursa olsun – ister bir DevOps gurusu, ister Front-end büyücüsü, isterse de Back-end mimarı – Quiz Al sizin için kişiselleştirilmiş bir öğrenme ve gelişim deneyimi vaat ediyor.",
+  "selection": "Seçebileceğiniz Alanlardan Bazıları"
 }
