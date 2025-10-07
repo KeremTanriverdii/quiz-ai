@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { getServerSession, Session } from "next-auth";
+import { getServerSession } from "next-auth";
 import NavMenu from "@/components/NavMenu";
 import { authOptions } from "@/lib/authOptions";
-import { cookies } from "next/headers";
 import { PageProps } from "./interview/questions/page";
 import { getDictionary } from "./dictionaries";
 import { langProps } from "@/components/blocks/StartButton";
@@ -34,19 +33,19 @@ export default async function RootLayout({
   const { locale } = await params;
   const session = await getServerSession(authOptions);
   const disc: langProps = await getDictionary(locale)
+
   return (
     <html lang={locale} className='dark'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen`}
       >
         <NavMenu session={session} localeData={disc} />
-        <main className="lg:mt-10 lg:mx-5">
+        <main className="grid grid-cols-1 lg:mt-6 lg:mb-10 lg:mx-5 self-center  justify-center w-full h-[90vh]">
           {children}
         </main>
 
-        <footer className="border-t py-6 text-start px-2 text-sm text-muted-foreground mt-12">
+        <footer className="border-t border-white py-6 text-start px-2 text-sm text-muted-foreground col-span-2 mt-auto">
           <p>© 2025 Kerem Tanrıverdi. All rights reserved.</p>
-
         </footer>
       </body>
     </html>

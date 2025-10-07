@@ -28,7 +28,6 @@ export default function Step2({ onNext, onBack, data, id }: Props) {
     }, [inputValue]);
 
     const [datax, setData] = useState<any>(data)
-    console.log(datax)
     return (
         <>
             <div className="flex flex-col gap-4 w-full">

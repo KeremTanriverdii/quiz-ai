@@ -1,26 +1,74 @@
 export interface Question {
-    id: number
+
+    id: number | string
     text: string
     hint: string
-
+    type: string
+    difficulty?: number
+    tech: string
+    template: string
+    options?: string[]
+    stack?: string[]
+}
+export type AiResp = {
+    score?: {
+        correctness?: number
+        code_quality?: number
+        efficiency_depth?: number
+        problem_solving?: number
+        completeness?: number
+    }
+    overall_score?: number
+    ratingText?: string
+    feedback?: string
+    professionTech?: { tech: string; fields: { field: string; score: number }[] }[]
+    [k: string]: any
 }
 export interface FeedBack {
-    score?: number;
+    score?: {
+        correctness: number
+        code_quality: number
+        efficiency_depth: number
+        problem_solving: number
+        completeness: number
+    };
     ratingText: string;
+    overall_score: number;
     message?: string;
+    feedback: string;
     professionTech: {
         tech: string;
         fields: { field: string; score: number }[];
     }[];
 }
+export interface Answers {
+    key: string
+    value: string
+}
+
+export interface techField {
+    tech: string;
+    fields: { score: number, field: string }[]
+}
 export interface TotalX {
     level: string
     profession: string
-    stack: string[]
+    stack: string[];
 }
 export interface Tech {
-    professionTech?: { tech: string, fields: { field: string, score: number }[] }[]
+    professionTech?: [{ tech: "", fields: [{ field: "", score: 0 }] }],
+    tech?: ""
+    // professionTech?: { tech: string, fields: { field: string, score: number }[] }[]
 }
+export interface Score {
+    correctness: number;
+    code_quality: number;
+    efficiency_depth: number;
+    problem_solving: number;
+    completeness: number;
+}
+
+
 
 export const colorMap: Record<string, string> = {
     html: "var(--color-html)",

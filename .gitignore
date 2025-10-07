@@ -42,3 +42,9 @@ next-env.d.ts
 
 /app/generated/prisma
 /app/[locale]/interview/action.ts
+app/[locale]/interview/result/action.ts
+app/\[locale]/interview/result/action.ts
+app/\[locale]/interview/action.ts
+
+/app/generated/prisma
+/prisma

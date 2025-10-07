@@ -1,122 +1,153 @@
 'use server'
+import { cookies } from 'next/headers'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/authOptions'
+import { client } from '@/sanity/lib/client'
 
-import { TotalX } from '@/components/data/type'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+export async function generateQuestion(levelRaw: string, stackRaw: string, langRaw: string) {
+  // Data get the cookies
+  const cookieStore = await cookies();
+  const session = await getServerSession(authOptions);
 
+  // sesssion check
+  if (!session?.user?.email) throw new Error('No found user session');
+  if (!levelRaw || !stackRaw) throw new Error('You have missing file');
 
-export async function generateQuestion(formData: FormData) {
-  const profession = formData.get('profession') as string
-  const level = formData.get('level') as string
-  const stackRaw = formData.get('stack') as string
+  // extra lang check
+  const lang = cookieStore.get('NEXT_LOCALE')?.value || 'en';
 
-  if (!profession || !level || !stackRaw) {
-    throw new Error('Eksik veri gönderildi.')
-  }
-
-  const stackObj = JSON.parse(stackRaw)
-  const stackArray = Object.values(stackObj).flat()
-  const prompt =
-    `You are a senior technical interviewer. Your task is to generate ten open-ended technical questions for a user based on their professional context.
-  **User Profile:**
-- **Profession:** ${profession}
-- **Level:** ${level}
-- **Tech Stack:** [${stackArray.join(", ")}]
-
-**Instructions:**
-1. **Generate ten open-ended technical questions** that are directly relevant to the user's profession and tech stack.
-2. The questions should increase in difficulty.
-3. You can create combined questions that involve multiple technologies from the provided tech stack (e.g., "How would you integrate React with Tailwind CSS?").
-4. Assign a random difficulty score from 1 to 5 for each question.
-5. **Crucially, ensure that at least one question has a difficulty of 1 and at least one question has a difficulty of 5.**
-6. Do not provide multiple-choice questions; only generate open-ended questions.
-7. The output must be a valid JSON array and contain only the JSON. Do not include any other text, explanations, or code blocks.
-
-**Output Format:**
-- The response must be a JSON array of ten objects.
-- Each object in the array should have the following structure:
-json
-[
-  {
-    "id": (A unique number from 1 to 5),
-    "text": "(The question text)",
-    "hint": "(A helpful hint for the user)",
-    "difficulty": (A number from 1 to 5, ensuring at least one '1' and one '5')
-  }
-]`
-
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string)
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const text = response.text();
-
-  const cleaned = text.trim().replace(/```json|```/g, '') || '[]'
-  const questions = JSON.parse(cleaned)
-  return { questions, profession, level, stack: stackArray }
-}
-
-
-export async function evaluateAnswers(questions: string, userAnswer: string, TotalProof: TotalX) {
-  const prompt =
-    `You are an expert software developer and technical evaluator. Your task is to analyze a user's answer to a given question and provide a comprehensive evaluation.
-**Evaluation Context:**
-- **Question:** ${questions}
-- **User's Answer:** ${userAnswer}
-- **User Profile:**
-  - **Level:** ${TotalProof.level} (e.g., Junior, Mid, Senior)
-  - **Profession:** ${TotalProof.stack} (e.g., Front-end Developer, Data Scientist)
-  - **Tech Stack:** [${TotalProof.stack.join(", ")}]
-
-**Instructions:**
-1.  **Analyze the answer** based on the user's provided context (level, profession, tech stack).
-2.  **Provide a concise rating text.**
-    - If correct: Offer a 1-2 sentence congratulatory message.
-    - If partially correct or incomplete: Briefly state the missing points and provide a piece of advice.
-    - If incorrect: State the correct answer and give a brief explanation.
-3.  **Provide a "score"** from 1 to 10 based on the evaluation, as a number, be carefull question difficulity. Total score is max 100 points.
-4.  **Identify specific sub-fields** within the user's tech stack that are relevant to the question.
-    - For each sub-field, provide a name (e.g., "React Hooks", "Kubernetes", "Python Data Structures").
-    - For each sub-field, provide a score from 1 to 10 based on the user's demonstrated knowledge in their answer.
-    - You can provide 1 to 3 sub-fields.
-
-**Output Format:**
-- Your response must be a **valid JSON object** and contain **only** the JSON.
-- Do **NOT** include any other text, explanations, or code blocks outside the JSON.
-- The JSON structure should be as follows:
-json
-{
-  "ratingText": "(Evaluation text based on instructions)",
-  "score": (A number from 1-10),
-  "professionTech": [
-    {
-      "tech": "(Relevant technology from the tech stack, e.g., 'React')",
-      "fields": [
-        {
-          "field": "(A relevant sub-field, e.g., 'React State Management')",
-          "score": (A number from 1-10)
-        }
-      ]
-    }
-  ]
-} And answers will be Turkish`
-    ;
-
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string)
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+  let stackArray: string[] = []
   try {
-    const result = await model.generateContent(prompt);
-    const responseText = await result.response.text();
-
-    const cleaned = responseText.trim().replace(/```json|```/g, '') || '{}'
-    const parsedResponse = JSON.parse(cleaned);
-
-    const score: number = parsedResponse.score;
-    const ratingText: string = parsedResponse.ratingText;
-    const professionTech: { tech: string, fields: { field: string, score: number }[] }[] = parsedResponse.professionTech
-    return { score: score, ratingText: ratingText, professionTech: professionTech }
-  } catch (err) {
-    console.error('Is error for during the response', err)
+    const parsed = JSON.parse(stackRaw)
+    if (Array.isArray(parsed)) {
+      stackArray = parsed.map(t => String(t).toLowerCase())
+    } else if (typeof parsed === 'object' && parsed !== null) {
+      stackArray = Object.values(parsed).flat().map(t => String(t).toLowerCase())
+    }
+  } catch {
+    console.log('error')
+    // stackArray = stackRaw.split(',').map(t => t.trim().toLowerCase())
   }
+
+  // if stackArray empty throw new error
+  if (!stackArray.length) throw new Error('No technologies provided for filtering')
+
+
+  // sanity.io cms query
+  const query = `
+    *[
+      _type == "question" &&
+      tech in $stackArray &&
+      level == $level &&
+      $lang in translations[].lang
+    ]{
+      _id,
+      type,
+      tech,
+      difficulty,
+      "questionText": coalesce(
+        translations[lang == $lang][0].text,
+        translations[0].text
+      ),
+      options[]{
+        label,
+        "optionText": coalesce(
+          translations[lang == $lang][0].text,
+          translations[0].text
+        )
+      },
+      templates[]{
+        "templateCode": coalesce(
+          code,
+          templates[0].code
+        )
+      }
+    }
+  `
+  if (!stackArray.length) {
+    throw new Error('No techlogies provided for filtering')
+  }
+
+  // fetch the data from sanity client 
+  const allQuestions = await client.fetch(query,
+    {
+      stackArray,
+      level: levelRaw,
+      lang
+    })
+
+
+  if (!allQuestions.length) throw new Error('No questions found for the given filters')
+
+  // Filter to Difficulity
+  // const diff1to3 = allQuestions.filter((q: any) => q.difficulty >= 1 && q.difficulty <= 3)
+  const diff4 = allQuestions.filter((q: any) => q.difficulty === 4)
+  const diff5 = allQuestions.filter((q: any) => q.difficulty === 5)
+
+  // Filter to question type
+  const openQuestions = allQuestions.filter((q: any) => q.type === 'open')
+  const mvcQuestions = allQuestions.filter((q: any) => q.type === 'mvc')
+
+  // Add at least one diff4 and diff5
+  const selectedQuestions: any[] = []
+  // stackArray.forEach((tech:any) => {
+  //   const techQuestions = allQuestions.filter((q: any) => q.tech.toLowerCase() === tech);
+  //   if (techQuestions.length > 0) {
+  //     selectedQuestions.push(techQuestions[Math.floor(Math.random() * techQuestions.length)])
+  //   }
+  // })
+  if (diff4.length > 0) selectedQuestions.push(diff4[Math.floor(Math.random() * diff4.length)])
+  if (diff5.length > 0) selectedQuestions.push(diff5[Math.floor(Math.random() * diff5.length)])
+
+  // Complete to remaining questions (6 open, 4 mcq)
+  const remainingOpen = openQuestions
+    .filter((q: any) => !selectedQuestions.some(sel => sel._id === q._id))
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 6 - selectedQuestions.filter((q: any) => q.type === 'open').length)
+
+  const remainingMvc = mvcQuestions
+    .filter((q: any) => !selectedQuestions.some(sel => sel._id === q._id))
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 4 - selectedQuestions.filter((q: any) => q.type === 'mvc').length)
+
+  selectedQuestions.push(...remainingOpen, ...remainingMvc)
+
+
+  const questions = selectedQuestions.slice(0, 10);
+
+  // access sanity user
+  const sanityUser = await client.fetch(
+    `*[_type=='user' && email == $email][0]`
+    , { email: session.user.email }
+  )
+
+  let userId;
+  if (!sanityUser) {
+    const createdUser = await client.create({
+      _type: 'user',
+      name: session.user.name,
+      email: session.user.email,
+      image: session.user.image
+    });
+    userId = createdUser._id
+
+  } else {
+    userId = sanityUser._id
+  }
+
+  // Register UserQuestion
+  await client.create({
+    _type: 'userQuestion',
+    user: {
+      _type: 'reference',
+      _ref: userId
+    },
+    questions: questions.map((q) => ({
+      _type: 'reference',
+      _ref: q._id
+    })),
+    createdAt: new Date().toISOString()
+  })
+
+  return questions
 }

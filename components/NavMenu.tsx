@@ -21,7 +21,7 @@ function AuthButton({ session, localeData }: { session: Session | null; localeDa
     ]
     return (
         <>
-            <div className="flex items-center justify-between mb-2 p-2 lg:px-5 border-2 rounded-full md:mt-3 md:w-2/3 md:mx-auto border-zinc-800">
+            <div className="flex items-center justify-between mb-2 p-2 lg:px-5 border-2 rounded-full md:mt-3 md:w-2/3 md:mx-auto border-zinc-800 ">
                 <Link href='/'>
                     <Image src='/withai.png' width={50} height={50} alt="Interview-ai logo" className="rounded-full" />
                 </Link>
@@ -65,7 +65,7 @@ interface NavbarProps {
 
 export default async function NavMenu({ session, localeData }: NavbarProps) {
     return (
-        <div>
+        <div className="row-start-1 row-span-1">
             <AuthButton session={session} localeData={localeData} />
         </div>
     )

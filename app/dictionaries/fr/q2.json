@@ -28,7 +28,8 @@
   "contact": "Contact",
   "features": "Fonctionnalités",
   "subHead": "Simulation d'entretien basée sur l'IA pour les développeurs.",
-  "sectionParagrafh": "Passez le Quiz - Êtes-vous prêt à devenir un développeur du futur ?",
-  "sectionHeader": "Pour ceux qui cherchent à faire passer leur carrière dans le monde du logiciel au niveau supérieur, Quiz Al offre une plateforme révolutionnaire basée sur l'IA ! Quel que soit votre rôle – que vous soyez un gourou DevOps, un magicien du Front-end ou un architecte du Back-end – Quiz Al vous promet une expérience d'apprentissage et de développement personnalisée.",
-  "selection": "Certains des domaines que vous pouvez choisir."
+  "sectionParagrafh": "Pour ceux qui cherchent à faire passer leur carrière dans le monde du logiciel au niveau supérieur, Quiz Al offre une plateforme révolutionnaire basée sur l'IA ! Quel que soit votre rôle – que vous soyez un gourou DevOps, un magicien du Front-end ou un architecte du Back-end – Quiz Al vous promet une expérience d'apprentissage et de développement personnalisée.",
+  "selection": "Certains des domaines que vous pouvez choisir.",
+  "sectionHeader": "Passez le Quiz - Êtes-vous prêt à devenir un développeur du futur ?",
+  "error": "Vous devez d'abord vous connecter."
 }

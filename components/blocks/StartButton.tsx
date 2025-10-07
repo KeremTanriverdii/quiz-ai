@@ -40,6 +40,7 @@ export type langProps = {
     sectionHeader: string;
     sectionParagrafh: string;
     selection: string;
+    error: string;
 }
 
 export default function StartButton({ lang, userLog }: { lang: langProps, userLog: Session | null }) {
@@ -103,9 +104,9 @@ export default function StartButton({ lang, userLog }: { lang: langProps, userLo
                 </div>
             )}
             {showAlert && (
-                <Alert variant={'destructive'} className="absolute bottom-0 right-2 w-fit">
+                <Alert variant={'destructive'} className="absolute bottom-2 right-2 w-fit">
                     <ShieldX />
-                    <AlertTitle>İlk önce giriş yapmanız gerekmektedir.</AlertTitle>
+                    <AlertTitle>{dict.error}</AlertTitle>
                     <AlertDescription>
                         <Progress value={progress} className="h-1 mt-2" />
                     </AlertDescription>

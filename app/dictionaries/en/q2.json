@@ -30,5 +30,6 @@
   "subHead": "AI-powered interview simulation for developers.",
   "sectionHeader": "Take the Quiz - Are You Ready to Become a Developer of the Future?",
   "sectionParagrafh": "For those looking to take their software career to the next level, Quiz Al offers a revolutionary AI-powered platform! No matter your role – whether you're a DevOps guru, a Front-end wizard, or a Back-end architect – Quiz Al promises a personalized learning and development experience just for you.",
-  "selection": "Some of the fields you can choose from."
+  "selection": "Some of the fields you can choose from.",
+  "error": "You must log in first."
 }

@@ -7,11 +7,11 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import PendingButtton from './PendingButtton';
-import { generateQuestion } from '@/app/[locale]/interview/action';
+import { serCookie } from '@/app/[locale]/interview/setCookie';
 
 const initialState = null
 async function generateQuestionWithState(_: any, formData: FormData) {
-    return await generateQuestion(formData)
+    // return await generateQuestion(formData)
 }
 
 type Selection = Record<string, string | string[]>;
@@ -34,7 +34,7 @@ export default function Step3({ onBack, data, id }: Props) {
     const router = useRouter();
 
     useEffect(() => {
-        if (state?.questions) {
+        if (state) {
             sessionStorage.setItem('interviewData', JSON.stringify(state))
             router.push('/interview/result')
         }
@@ -84,17 +84,18 @@ export default function Step3({ onBack, data, id }: Props) {
         const formData = new FormData()
         formData.append("profession", selectedProfession)
         formData.append("level", selectedLevel)
-        formData.append("stack", JSON.stringify(selections))
+        const stack = Object.values(selections).flat()
+        formData.append("stack", JSON.stringify(stack))
 
-        const result = await generateQuestion(formData)
+        const result = await serCookie(formData)
 
         // SessionStorage ile Result sayfasına veri taşı
-        sessionStorage.setItem("questions", JSON.stringify(result.questions))
-        sessionStorage.setItem("meta", JSON.stringify({
-            profession: result.profession,
-            level: result.level,
-            stack: result.stack
-        }))
+        // sessionStorage.setItem("questions", JSON.stringify(formData))
+        // sessionStorage.setItem("meta", JSON.stringify({
+        //     level: selectedLevel,
+        //     profession: selectedProfession,
+        //     techArray: selections
+        // }))
         setPending(false)
         router.push("/interview/questions")
     }

@@ -11,7 +11,7 @@ export default async function RootLayout({ children, params }: { children: React
     const { locale } = await params;
     const disc = await getDictionary(locale);
     return (
-        <div className="p-8 border rounded-2xl shadow">
+        <div className="col-span-2 flex flex-col mt-auto mb-auto w-fit mx-auto p-8 border rounded-2xl shadow h-fit">
             <h1 className="text-2xl font-bold mb-6">{disc.interviewLayout}</h1>
             {children}
         </div>

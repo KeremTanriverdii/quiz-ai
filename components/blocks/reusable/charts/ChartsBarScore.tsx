@@ -7,28 +7,28 @@ import { TrendingUp } from 'lucide-react'
 import React from 'react'
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts'
 
-export default function ChartsBarScore({ chartBarData, chartBarConfig, getScoreMessage, techScors, data }: {
-    chartBarData: any[];
-    chartBarConfig: Record<string, { label: string; color: string }>;
-    getScoreMessage: (score: number, t: (key: string) => string) => string;
+export default function ChartsBarScore({ chartBarData, chartBarConfig, techScors, score, getScoreMessage }: {
+    chartBarData: any[] | { name: string; scor: number }[]
+    chartBarConfig: { score: { label: string } };
+    getScoreMessage?: string | undefined,
+    score?: number | number[][];
     techScors: any[];
-    data: any
+    // data: any
 }) {
     const getColorbyScore = (score: number) => {
         if (score <= 4) return '#808080';
         if (score <= 6) return '#ADD8E6'
         return '#0000FF';
     }
-    console.log(data)
     return (
-        <div>
+        <div className='h-full'>
             <Card>
                 <CardHeader>
                     {/* <CardTitle>{data.totalScore}</CardTitle> */}
-                    {/* <CardDescription>{data.totalScoreDescription}</CardDescription> */}
+                    <CardDescription>Field Score - Technology</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {getScoreMessage(techScors.reduce((a, b) => a + b.scors, 0), t)}
+                    {/* {getScoreMessage(techScors.reduce((a, b) => a + b.scors, 0), t)} */}
                     <ChartContainer config={chartBarConfig}>
                         <BarChart
                             accessibilityLayer
@@ -52,13 +52,13 @@ export default function ChartsBarScore({ chartBarData, chartBarConfig, getScoreM
                             {Object.keys(chartBarConfig).map((key) => (
                                 <Bar
                                     key={key}
-                                    dataKey={"value"} // This should be the field name, e.g., 'score' or 'field'
-                                    fill={getColorbyScore(techScors.find(item => item.name === key)?.scors)}
+                                    dataKey={"score"} // This should be the field name, e.g., 'score' or 'field'
+                                    fill={getColorbyScore(techScors.flatMap(tech => tech.fields).find(field => field.score === key))}
                                     radius={10}
                                     scale={"band"}
                                     barSize={80}
                                 >
-                                    <LabelList dataKey={"value"} position="top" offset={12} className="fill-foreground" fontSize={12} />
+                                    <LabelList dataKey={"scor"} position="top" offset={12} className="fill-foreground" fontSize={12} />
                                 </Bar>
                             ))}
                         </BarChart>

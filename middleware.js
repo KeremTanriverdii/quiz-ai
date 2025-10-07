@@ -15,6 +15,9 @@ export function middleware(request) {
         return NextResponse.next()
     }
 
+    if (pathname.startsWith('/studio')) {
+        return NextResponse.next();
+    }
 
     const cookieLocal = request.cookies.get('NEXT_LOCALE')
 

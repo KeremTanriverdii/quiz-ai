@@ -1,76 +1,117 @@
 "use client"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useState } from "react"
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Bar, BarChart, CartesianGrid, Cell, Label, LabelList, PolarGrid, PolarRadiusAxis, RadialBar, RadialBarChart, XAxis } from "recharts"
-import { TrendingUp } from "lucide-react"
-import { colorMap2, FeedBack } from "@/components/data/type"
+import { Question } from "@/components/data/type"
 import { Button } from "@/components/ui/button"
+import { AiResp } from "@/app/[locale]/interview/result/action"
+import ChartsTotal from "./ChartsTotal"
+import ChartsBarScore from "./ChartsBarScore"
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
 
-export default function GetFeedback({ question, answer, feedback, data }: {
-    question: { id: number, text: string, hint: string }[],
-    answer: Record<string, string>,
-    feedback: Record<number, FeedBack>,
-    data: any
+export default function GetFeedback({ question, answer, data }: {
+    question: Question[],
+    answer: Record<number, AiResp>,
+    data?: any
 }) {
     // const datax = data || null
     const [selectionQuestion, setSelectionQuestion] = useState<number | null>(null);
-
     const handleRenderforQId = (id: number) => {
         setSelectionQuestion(id);
     }
+    const score = selectionQuestion !== null ? answer[selectionQuestion]?.overall_score ?? 0 : 0;
+    const bartCcore: number | number[][] = selectionQuestion !== null && answer[selectionQuestion]?.professionTech ? answer[selectionQuestion].professionTech.map(x => x.fields.map(y => y.score)) : 0;
+    const entiresScore: { name: string; score: number } | any = selectionQuestion !== null && answer[selectionQuestion]?.score
+        ? Object.entries(answer[selectionQuestion].score).map(([name, score]) => ({
+            name,
+            score,
+        }))
+        : [];
     const getScoreMessageForQuestion = (score: number) => {
-        if (score <= 2) return "It looks like you're just getting started. Keep practicing!";
-        if (score <= 4) return "You're on the right track, but there's more to learn.";
-        if (score <= 6) return "Good effort! There are some areas for improvement.";
-        if (score <= 8) return "Great job! You have a solid understanding.";
-        if (score <= 10) return "Excellent! You have a strong grasp of the concepts."
+        if (score <= 8) return "It looks like you're just getting started. Keep practicing!";
+        if (score <= 15) return "You're on the right track, but there's more to learn.";
+        if (score <= 20) return "Good effort! There are some areas for improvement.";
+        if (score <= 32) return "Great job! You have a solid understanding.";
+        if (score <= 45) return "Excellent! You have a strong grasp of the concepts."
     }
 
-
-    const getColorbyScore = (score: number) => {
+    console.log(entiresScore)
+    const getColorbyScore = (score: number): string | undefined => {
         if (score <= 4) return 'red';
         if (score <= 7) return 'yellow';
         return 'green';
     }
     const chartData = [
-        { name: 'scor', visitors: feedback[selectionQuestion || 0]?.score || 0 }
-    ]
-
+        { name: 'score', score: score }
+    ] as any;
     const chartConfig = {
-        visitors: {
-            color: 'gray-500',
-            label: 'score',
-        },
+        score: {
+            label: 'Score'
+        }
 
 
     } satisfies ChartConfig;
 
-
-    const chartBarData = feedback[selectionQuestion || 0]?.professionTech.flatMap((tech) =>
-        tech.fields.map((field) => ({
-            name: `${field.field} - ${tech.tech}`,
-            scor: `${field.score}`,
-            tech: tech.tech, // burada renk eşlemek için lazım
-        }))
-    );
-
-    const chartBarConfig = feedback[selectionQuestion || 0]?.professionTech?.reduce((acc, item) => {
-        acc[item.tech.toLocaleLowerCase()] = {
-            label: item.tech,
-            color: colorMap2[item.tech.toLocaleLowerCase()] || colorMap2.default,
+    const chartBarData =
+        selectionQuestion !== null
+            ? answer[selectionQuestion]?.professionTech?.flatMap(tech =>
+                tech.fields.map(field => ({
+                    name: `${tech.tech} - ${field.field}`,
+                    score: field.score
+                }))
+            ) ?? []
+            : []
+    const chartBarConfig = {
+        score: {
+            label: "Score"
         }
-        return acc
-    }, {} as Record<string, { label: string; color: string }>) || {}
+    }
+
+    const currentAnswers = question.filter(q => q.id === selectionQuestion)
+    const chartDataSkill = entiresScore
+
+    const chartConfigSlill = {
+        score: {
+            label: 'Score',
+            color: 'var(--color-desktop)'
+        }
+    }
+    // currentAnswers !== null ?  Object.values(answer(Number([selectionQuestion]))).flatMap((item) =>
+    //     Object.entries(item.score || 'empty chartDataSkill').map(([name, score]) => ({
+    //         name,
+    //         score,
+    //     }))
+    // );
+
+    const chartDataConfig = {
+        score: {
+            label: 'Score',
+        }
+    } satisfies ChartConfig
+    // const chartDataSkill = [
+    //     {
+    //         name: selectionQuestion !== null ? answer[selectionQuestion]?.score?.correctness: 'x',
+    //         score: selectionQuestion !== null ? answer[selectionQuestion]?.score?.correctness: 'x'
+    //     },
+    //     {
+    //         name : selectionQuestion !== null ? answer[selectionQuestion]?.score?.code_quality: 'y',
+    //         score : selectionQuestion !== null ? answer[selectionQuestion]?.score?.code_quality: 'y'
+    //     },
+    //     {
+    //         name: selectionQuestion !== null ? answer[selectionQuestion]?.score?.completeness: 'z',
+    //         score: selectionQuestion !== null ? answer[selectionQuestion]?.score?.completeness: 'z',
+    //     },
+
+    // ] as {}
     return (
-        <div className="h-full">
+        <div>
             <Card className="h-full">
                 {/* <CardTitle>{datax.questions}</CardTitle> */}
                 {selectionQuestion === null && (
                     <CardContent className="grid grid-cols-3 gap-5 text-center">
                         {question.map(q => (
-                            <Card key={q.id} className="lg:p-6 cursor-pointer" onClick={() => handleRenderforQId(q.id)}>
+                            <Card key={q.id} className="lg:p-6 cursor-pointer" onClick={() => handleRenderforQId(q.id as number)}>
                                 <CardHeader className="font-bold">
                                     {q.id}
                                 </CardHeader>
@@ -79,6 +120,8 @@ export default function GetFeedback({ question, answer, feedback, data }: {
                         ))}
                     </CardContent>
                 )}
+
+
                 {selectionQuestion !== null && (
                     <>
                         {question.filter(q => q.id === selectionQuestion).map(q => (
@@ -88,153 +131,73 @@ export default function GetFeedback({ question, answer, feedback, data }: {
                                     <Button onClick={() => setSelectionQuestion(null)}>X</Button>
                                 </CardTitle>
                                 <CardContent>
-                                    <span className="font-bold">Cevabınız:</span> {answer[String(q.id)] || "Cevaplanmamış"} <br />
+                                    {/* <span className="font-bold">Cevabınız:</span> {answer[Number(q.id)] || "Cevaplanmamış"} <br /> */}
                                     <p className="font-bold">
-                                        {feedback[q.id]?.ratingText || "Değerlendirme bekleniyor..."}
+                                        {answer[Number(q.id)]?.ratingText || "Değerlendirme bekleniyor..."}
                                     </p>
                                 </CardContent>
                                 <CardContent>
-                                    <div className="flex flex-col lg:mt-10">
-                                        <CardHeader className="items-center pb-0">
-                                            {/* <CardTitle>{datax.totalScore}</CardTitle> */}
-                                            <CardDescription>{getScoreMessageForQuestion(Number(feedback[selectionQuestion]?.score))}</CardDescription>
+                                    <div className="flex flex-col md:flex-row gap-5 items-stretch lg:mt-10">
+                                        <ChartsTotal
+                                            totalScore={Number(answer[selectionQuestion]?.overall_score)}
+                                            getScoreMessage={getScoreMessageForQuestion}
+                                            chartData={chartData}
+                                            chartConfig={chartConfig}
+                                            data={data}
+                                        />
+                                        <ChartsBarScore
+                                            chartBarData={chartBarData}
+                                            chartBarConfig={chartBarConfig}
+                                            score={bartCcore}
+                                            techScors={answer[selectionQuestion]?.professionTech || []}
+                                        />
+                                    </div>
+                                    <Card className="mt-5">
+                                        <CardHeader>
+                                            <CardTitle>Your Code Skills</CardTitle>
                                         </CardHeader>
-                                        <CardContent className="flex-1 pb-0">
-                                            <ChartContainer
-                                                config={chartConfig}
-                                                className="mx-auto aspect-square max-h-[250px]"
-                                            >
-                                                <RadialBarChart
-                                                    data={chartData}
-                                                    startAngle={0}
-                                                    endAngle={-90 + (Number(feedback[selectionQuestion]?.score) / 10) * 360}
-                                                    innerRadius={80}
-                                                    outerRadius={140}
-                                                >
-                                                    <PolarGrid
-                                                        gridType="circle"
-                                                        radialLines={false}
-                                                        stroke="none"
-                                                        className="first:fill-muted last:fill-background"
-                                                        polarRadius={[86, 74]}
+                                        <CardContent>
+                                            <ChartContainer config={chartConfigSlill}>
+                                                <BarChart accessibilityLayer data={chartDataSkill}>
+                                                    <CartesianGrid vertical={false} />
+                                                    <XAxis
+                                                        dataKey="name"
+                                                        tickLine={false}
+                                                        tickMargin={10}
+                                                        axisLine={false}
+                                                    // tickFormatter={(value) => value.slice(0, 3)}
                                                     />
-                                                    <RadialBar dataKey="visitors" background fill={getColorbyScore(Number(feedback[selectionQuestion]?.score))} />
-                                                    <PolarRadiusAxis tick={false} tickLine={false} axisLine={false}>
-                                                        <Label
-                                                            content={({ viewBox }) => {
-                                                                if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                                                                    return (
-                                                                        <text
-                                                                            x={viewBox.cx}
-                                                                            y={viewBox.cy}
-                                                                            textAnchor="middle"
-                                                                            dominantBaseline="middle"
-                                                                        >
-                                                                            <tspan
-                                                                                x={viewBox.cx}
-                                                                                y={viewBox.cy}
-                                                                                className="fill-foreground text-4xl font-bold"
-                                                                            >
-                                                                                {feedback[selectionQuestion].score}
-                                                                            </tspan>
-                                                                            <tspan
-                                                                                x={viewBox.cx}
-                                                                                y={(viewBox.cy || 0) + 24}
-                                                                                className="fill-muted-foreground"
-                                                                            >
-                                                                                / 10
-                                                                            </tspan>
-                                                                        </text>
-                                                                    )
-                                                                }
-                                                            }}
-                                                        />
-                                                    </PolarRadiusAxis>
-                                                </RadialBarChart>
+                                                    <ChartTooltip
+                                                        cursor={false}
+                                                        content={<ChartTooltipContent hideLabel />}
+                                                    />
+                                                    <Bar dataKey="score" fill={getColorbyScore(entiresScore.map((x: { score: any }) => x.score))} radius={8} />
+                                                </BarChart>
                                             </ChartContainer>
                                         </CardContent>
-                                        <CardFooter className="flex-col gap-2 text-sm">
-                                            <div className="flex items-center gap-2 font-medium leading-none">
-                                                <TrendingUp className="h-4 w-4" />
-                                                {/* {totalScore > 25 ? "You are doing great!" : "Keep working on it!"} */}
-                                            </div>
-                                            <div className="leading-none text-muted-foreground">
-                                                This score is based on your answers.
-                                            </div>
-                                        </CardFooter>
-                                    </div>
+                                    </Card>
                                 </CardContent>
 
-                                {/* ChartBarData */}
-                                <CardHeader className="lg:mt-15">
-                                    <CardTitle>Bar Chart - Label</CardTitle>
-                                    <CardDescription>January - June 2024</CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <ChartContainer config={chartBarConfig}>
-                                        <BarChart
-                                            accessibilityLayer
-                                            data={chartBarData}
-                                            margin={{
-                                                top: 20,
-                                            }}
-                                        >
-                                            <CartesianGrid vertical={false} />
-                                            <XAxis
-                                                dataKey="name"
-                                                tickLine={false}
-                                                tickMargin={10}
-                                                axisLine={false}
-                                            />
-                                            <ChartTooltip
-                                                cursor={false}
-                                                content={<ChartTooltipContent hideLabel />}
-                                            />
-                                            <Bar dataKey="scor" radius={8}>
-                                                {chartBarData.map((entry, index) => (
-                                                    <Cell
-                                                        key={`cell-${index}`}
-                                                        fill={getColorbyScore(Number(feedback[selectionQuestion]?.score))}
-                                                    />
-                                                ))}
-                                                <LabelList
-                                                    position="top"
-                                                    dataKey="scor"
-                                                    offset={10}
-                                                    className="fill-foreground"
-                                                    fontSize={12}
-                                                />
-                                            </Bar>
-                                        </BarChart>
-                                    </ChartContainer>
-                                </CardContent>
-                                <CardFooter className="flex-col items-start gap-2 text-sm">
-                                    <div className="flex gap-2 leading-none font-medium">
-                                        Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                                    </div>
-                                    <div className="text-muted-foreground leading-none">
-                                        Showing total visitors for the last 6 months
-                                    </div>
-                                </CardFooter>
+
                             </div>
                         ))}
                     </>
                 )}
             </Card>
             {/* {currentAnswers.map(q => (
-                    <Card key={q.id} className="flex flex-col mb-6">
-                        <CardTitle>
-                            <strong>{q.text}</strong>
-                        </CardTitle>
-                        <CardContent>
-                            Cevabınız: {answers[String(q.id)] || "Cevaplanmamış"}
-                            <p>
-                                Geri Bildirim:{" "}
-                                {feedbacks[q.id]?.ratingText || "Değerlendirme bekleniyor..."}
-                            </p>
-                        </CardContent>
-                    </Card>
-                ))} */}
+                <Card key={q.id} className="flex flex-col mb-6">
+                    <CardTitle>
+                        <strong>{q.text}</strong>
+                    </CardTitle>
+                    <CardContent>
+                        Cevabınız: {answer[Number(q.id)]?.feedback || "Cevaplanmamış"}
+                        <p>
+                            Geri Bildirim:{" "}
+                            {answer[Number(q.id)]?.ratingText || "Değerlendirme bekleniyor..."}
+                        </p>
+                    </CardContent>
+                </Card>
+            ))} */}
         </div>
     )
 }
