@@ -37,10 +37,10 @@ export default async function RootLayout({
   return (
     <html lang={locale} className='dark'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased relative min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
       >
         <NavMenu session={session} localeData={disc} />
-        <main className="grid grid-cols-1 lg:mt-6 lg:mb-10 lg:mx-5 self-center  justify-center w-full h-[90vh]">
+        <main className="grid grid-cols-1 lg:mt-6  self-center justify-center w-full h-[83vh]">
           {children}
         </main>
 

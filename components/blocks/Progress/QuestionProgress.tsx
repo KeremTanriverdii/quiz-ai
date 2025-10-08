@@ -3,7 +3,7 @@
 import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
 
-export default function QuestionProgress({ id }: { id: string }) {
+export default function QuestionProgress({ id }: { id: number }) {
     const value = Number(id) || 0;
     const [progress, setProgress] = useState(0);
 
