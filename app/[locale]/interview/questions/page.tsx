@@ -7,6 +7,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import TimerComponent from "@/components/TimerComponent";
 import { generateQuestion } from "../action";
 import { cookies } from "next/headers";
+import FullscreenQuiz from "@/components/blocks/reusable/charts/FullScreenQuiz";
 
 
 export type Questionsa = {
@@ -16,6 +17,8 @@ export type Questionsa = {
     difficulty: number
     options?: { label: string; optionText: string }[]
     templates?: { templateCode: string }[]
+    tech: string;
+    hintText: string;
 }
 export interface PageProps {
     params: {
@@ -33,21 +36,26 @@ export default async function page({ params }: { params: Promise<PageProps['para
     const level = cookieStore.get('level')?.value as string | undefined;
     const stack = cookieStore.get('stack')?.value as string | undefined;
     const lang = cookieStore.get('lang')?.value as string | undefined;
-    const question = await generateQuestion(level || '', stack || '', lang || '')
+    const question = await generateQuestion(level || '', stack || '', lang || '');
 
     return (
-        <div className="grid grid-cols-1 col-span-2">
-            <div className="flex gap-5 justify-center items-stretch h-fit">
-                <Card className="w-1/3 my-auto h-full p-4  ">
-                    <CardTitle>{disc.questions}</CardTitle>
-                    {session?.user && <p>{session.user.name}</p>}
-                    <QuestionInfo />
-                    <TimerComponent />
-                </Card>
-                <ResultClient data={disc} user={session}
-                    question={question}
-                />
+        <div className="grid grid-cols-1 md:grid-cols-3 items-stretch justify-center gap-2 md:m-10">
+            {/* <div className="flex gap-5 justify-center items-stretch h-full"> */}
+            <Card className="my-auto h-full p-4  ">
+                <CardTitle>{disc.questions}</CardTitle>
+                {session?.user && <p>{session.user.name}</p>}
+                <QuestionInfo />
+                <TimerComponent />
+            </Card>
+
+            <div className="col-span-2">
+                <FullscreenQuiz>
+                    <ResultClient data={disc} user={session}
+                        question={question}
+                    />
+                </FullscreenQuiz>
             </div>
+            {/* </div> */}
         </div>
     )
 }

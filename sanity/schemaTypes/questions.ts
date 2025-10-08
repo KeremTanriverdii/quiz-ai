@@ -62,7 +62,7 @@ export const questionsType = defineType({
             of: [{
                 type: 'object', fields: [
                     { name: 'lang', type: 'string', options: { list: ['tr', 'en', 'fr'] }, validation: Rule => Rule.required() },
-                    { name: 'text', type: 'text' }
+                    { name: 'text', type: 'text', validation: Rule => Rule.required() }
                 ]
             }]
         }),
