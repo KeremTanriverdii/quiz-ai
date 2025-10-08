@@ -39,7 +39,8 @@ export async function generateQuestion(levelRaw: string, stackRaw: string, langR
       _type == "question" &&
       tech in $stackArray &&
       level == $level &&
-      $lang in translations[].lang
+      $lang in translations[].lang &&
+      $lang in hints[].lang
     ]{
       _id,
       type,
@@ -48,6 +49,10 @@ export async function generateQuestion(levelRaw: string, stackRaw: string, langR
       "questionText": coalesce(
         translations[lang == $lang][0].text,
         translations[0].text
+      ),
+      "hintText": coalesce(
+        hints[lang == $lang][0].text,
+        hints[0].text
       ),
       options[]{
         label,
